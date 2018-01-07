@@ -167,19 +167,14 @@ class DdlParseColumn(DdlParseTableColumnBase):
             for condition in conditions:
                 if isinstance(condition, str):
                     if self._data_type == condition:
-                        this_bq_type = bq_type
-                        break
+                        return bq_type
                 elif re.search(condition, self._data_type):
-                    this_bq_type = bq_type
-                    break
+                    return bq_type
 
-        if this_bq_type is None:
-            if self._data_type in ["NUMERIC", "DECIMAL"]:
-                this_bq_type = "INTEGER" if self._scale is None else "FLOAT"
-            else:
-                raise ValueError("Unknown data type : '{}'".format(self._data_type))
+        if this_bq_type is None and self._data_type in ["NUMERIC", "DECIMAL"]:
+            return "INTEGER" if self._scale is None else "FLOAT"
 
-        return this_bq_type
+        raise ValueError("Unknown data type : '{}'".format(self._data_type))
 
     @property
     def bigquery_mode(self):

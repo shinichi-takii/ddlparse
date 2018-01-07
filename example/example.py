@@ -19,6 +19,10 @@ CREATE TABLE My_Schema.Sample_Table (
 """
 
 table = DdlParse().parse(sample_ddl)
+# or this
+parser = DdlParse()
+parser.ddl = sample_ddl
+table = parser.parse()
 
 print("* TABLE *")
 print("schema = {} : name = {} : is_temp = {}".format(table.schema, table.name, table.is_temp))

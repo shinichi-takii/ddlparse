@@ -8,7 +8,7 @@
 from .ddlparse import *
 
 __copyright__    = 'Copyright (C) 2018 Shinichi Takii'
-__version__      = '1.0.0'
+__version__      = '1.0.1'
 __license__      = 'BSD-3-Clause'
 __author__       = 'Shinichi Takii'
 __author_email__ = 'shinichi.takii@gmail.com'
