@@ -73,7 +73,13 @@ Example
     );
     """
 
+    # parse pattern (1)
     table = DdlParse().parse(sample_ddl)
+
+    # parse pattern (2)
+    parser = DdlParse()
+    parser.ddl = sample_ddl
+    table = parser.parse()
 
     print("* TABLE *")
     print("schema = {} : name = {} : is_temp = {}".format(table.schema, table.name, table.is_temp))
@@ -81,8 +87,9 @@ Example
     print("* BigQuery Fields *")
     print(table.to_bigquery_fields())
 
-    print("* BigQuery Fields - column name to lower *")
+    print("* BigQuery Fields - column name to lower case / upper case *")
     print(table.to_bigquery_fields(DdlParse.NAME_CASE.lower))
+    print(table.to_bigquery_fields(DdlParse.NAME_CASE.upper))
 
     print("* COLUMN *")
     for col in table.columns.values():
@@ -99,13 +106,13 @@ Example
             col.to_bigquery_field()
             ))
 
-    print("* Get Column object *")
-    print(table.columns["Name"])
+    print("* Get Column object (case insensitive) *")
+    print(table.columns["total"])
 
 License
 -------
 
-`BSD 3-Clause License <LICENSE>`__
+`BSD 3-Clause License <LICENSE.md>`__
 
 Author
 ------
@@ -136,4 +143,4 @@ Special Thanks
 .. |Requirements Status| image:: https://requires.io/github/shinichi-takii/ddlparse/requirements.svg?branch=master
    :target: https://requires.io/github/shinichi-takii/ddlparse/requirements/?branch=master
 .. |License| image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
-   :target: https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE
+   :target: https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE.md

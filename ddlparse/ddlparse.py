@@ -11,7 +11,7 @@ import re
 from collections import OrderedDict
 from enum import IntEnum
 
-from pyparsing import CaselessKeyword, Forward, Word, Regex, alphanums, unicodeString, \
+from pyparsing import CaselessKeyword, Forward, Word, Regex, alphanums, \
     delimitedList, Suppress, Optional, Group, OneOrMore
 
 
@@ -284,7 +284,6 @@ class DdlParse(DdlParseBase):
                     + Group(
                           Word(alphanums+"_")
                         + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION"))
-                        # + Optional(_LPAR + Word(nums+",") + _RPAR)
                         + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + _RPAR)
                         )("type")
                     + Optional(Word(alphanums+"_' "))("constraint")
