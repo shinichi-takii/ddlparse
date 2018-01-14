@@ -6,7 +6,7 @@
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/shinichi-takii/ddlparse/badge.svg?branch=master)](https://coveralls.io/github/shinichi-takii/ddlparse?branch=master)
 [![codecov Coverage Status](https://codecov.io/gh/shinichi-takii/ddlparse/branch/master/graph/badge.svg)](https://codecov.io/gh/shinichi-takii/ddlparse)
 [![Requirements Status](https://requires.io/github/shinichi-takii/ddlparse/requirements.svg?branch=master)](https://requires.io/github/shinichi-takii/ddlparse/requirements/?branch=master)
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE.md)
 
 *DDL parase and Convert to BigQuery JSON schema module, available in Python.*
 
@@ -63,7 +63,13 @@ CREATE TABLE My_Schema.Sample_Table (
 );
 """
 
+# parse pattern (1)
 table = DdlParse().parse(sample_ddl)
+
+# parse pattern (2)
+parser = DdlParse()
+parser.ddl = sample_ddl
+table = parser.parse()
 
 print("* TABLE *")
 print("schema = {} : name = {} : is_temp = {}".format(table.schema, table.name, table.is_temp))
@@ -71,8 +77,9 @@ print("schema = {} : name = {} : is_temp = {}".format(table.schema, table.name, 
 print("* BigQuery Fields *")
 print(table.to_bigquery_fields())
 
-print("* BigQuery Fields - column name to lower *")
+print("* BigQuery Fields - column name to lower case / upper case *")
 print(table.to_bigquery_fields(DdlParse.NAME_CASE.lower))
+print(table.to_bigquery_fields(DdlParse.NAME_CASE.upper))
 
 print("* COLUMN *")
 for col in table.columns.values():
@@ -89,13 +96,13 @@ for col in table.columns.values():
         col.to_bigquery_field()
         ))
 
-print("* Get Column object *")
-print(table.columns["Name"])
+print("* Get Column object (case insensitive) *")
+print(table.columns["total"])
 ```
 
 ## License
 
-[BSD 3-Clause License](LICENSE)
+[BSD 3-Clause License](LICENSE.md)
 
 ## Author
 

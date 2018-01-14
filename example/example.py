@@ -18,8 +18,10 @@ CREATE TABLE My_Schema.Sample_Table (
 );
 """
 
+# parse pattern (1)
 table = DdlParse().parse(sample_ddl)
-# or this
+
+# parse pattern (2)
 parser = DdlParse()
 parser.ddl = sample_ddl
 table = parser.parse()
@@ -30,8 +32,9 @@ print("schema = {} : name = {} : is_temp = {}".format(table.schema, table.name, 
 print("* BigQuery Fields *")
 print(table.to_bigquery_fields())
 
-print("* BigQuery Fields - column name to lower *")
+print("* BigQuery Fields - column name to lower case / upper case *")
 print(table.to_bigquery_fields(DdlParse.NAME_CASE.lower))
+print(table.to_bigquery_fields(DdlParse.NAME_CASE.upper))
 
 print("* COLUMN *")
 for col in table.columns.values():
@@ -48,5 +51,5 @@ for col in table.columns.values():
         col.to_bigquery_field()
         ))
 
-print("* Get Column object *")
-print(table.columns["Name"])
+print("* Get Column object (case insensitive) *")
+print(table.columns["total"])
