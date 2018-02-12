@@ -56,3 +56,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Rope config file
+#   https://github.com/python-rope/rope
+.ropeproject/

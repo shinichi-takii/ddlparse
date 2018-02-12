@@ -18,15 +18,28 @@ from pyparsing import CaselessKeyword, Forward, Word, Regex, alphanums, \
 class DdlParseBase():
 
     NAME_CASE = IntEnum("NAME_CASE", "original lower upper")
+    DATABASE = IntEnum("DATABASE", "mysql, postgresql, oracle, redshift")
 
-    def __init__(self):
-        pass
+    def __init__(self, source_database=None):
+        self._source_database = source_database
+
+    @property
+    def source_database(self):
+        """
+        Source database option
+        :param source_database: enum DdlParse.DATABASE
+        """
+        return self._source_database
+
+    @source_database.setter
+    def source_database(self, source_database):
+        self._source_database = source_database
 
 
 class DdlParseTableColumnBase(DdlParseBase):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, source_database=None):
+        super().__init__(source_database)
         self._name = ""
 
     @property
@@ -60,12 +73,13 @@ class DdlParseTableColumnBase(DdlParseBase):
 class DdlParseColumn(DdlParseTableColumnBase):
     """Column define info"""
 
-    def __init__(self, name, data_type_array, constraint=None):
+    def __init__(self, name, data_type_array, constraint=None, source_database=None):
         """
-        :param data_type_array[]: Column data type [data type name, length, precision]
+        :param data_type_array[]: Column data type ['data type name'] or ['data type name', '(length)'] or ['data type name', '(precision, scale)']
         :param constraint: Column constraint string
+        :param source_database: enum DdlParse.DATABASE
         """
-        super().__init__()
+        super().__init__(source_database)
         self._name = name
         self._set_data_type(data_type_array)
         self.constraint = constraint
@@ -149,29 +163,36 @@ class DdlParseColumn(DdlParseTableColumnBase):
     def bigquery_data_type(self):
         """Get BigQuery data type"""
 
-        BQ_DATA_TYPE_DIC = {
-            # BigQuery data type : [condition, ...]
-            "STRING" : [re.compile(r"(CHAR|TEXT)")],
-            "INTEGER" : [re.compile(r"INT|SERIAL|YEAR")],
-            "FLOAT" : [re.compile(r"(FLOAT|DOUBLE)"), "REAL", "MONEY"],
-            "DATE" : ["DATE"],
-            "TIME" : ["TIME"],
-            "DATETIME" : ["DATETIME", "TIMESTAMP", "TIMESTAMP WITHOUT TIME ZONE"],
-            "TIMESTAMP" : ["TIMESTAMPTZ", "TIMESTAMP WITH TIME ZONE"],
-            "BOOLEAN" : [re.compile(r"BOOL")],
-            }
-
-        this_bq_type = None
+        # BigQuery data type = {source_database: [data type, ...], ...}
+        BQ_DATA_TYPE_DIC = OrderedDict()
+        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT)")]}
+        BQ_DATA_TYPE_DIC["INTEGER"] = {None: [re.compile(r"INT|SERIAL|YEAR")]}
+        BQ_DATA_TYPE_DIC["FLOAT"] = {None: [re.compile(r"(FLOAT|DOUBLE)"), "REAL", "MONEY"]}
+        BQ_DATA_TYPE_DIC["DATETIME"] = {
+            None: ["DATETIME", "TIMESTAMP", "TIMESTAMP WITHOUT TIME ZONE"],
+            self.DATABASE.oracle: ["DATE"]
+        }
+        BQ_DATA_TYPE_DIC["TIMESTAMP"] = {None: ["TIMESTAMPTZ", "TIMESTAMP WITH TIME ZONE"]}
+        BQ_DATA_TYPE_DIC["DATE"] = {None: ["DATE"]}
+        BQ_DATA_TYPE_DIC["TIME"] = {None: ["TIME"]}
+        BQ_DATA_TYPE_DIC["BOOLEAN"] = {None: [re.compile(r"BOOL")]}
 
         for bq_type, conditions in BQ_DATA_TYPE_DIC.items():
-            for condition in conditions:
-                if isinstance(condition, str):
-                    if self._data_type == condition:
-                        return bq_type
-                elif re.search(condition, self._data_type):
-                    return bq_type
+            for source_db, source_datatypes in conditions.items():
+                for source_datatype in source_datatypes:
 
-        if this_bq_type is None and self._data_type in ["NUMERIC", "DECIMAL"]:
+                    if isinstance(source_datatype, str):
+                        if self._data_type == source_datatype \
+                            and (  self._source_database == source_db
+                                or (self._source_database is not None and source_db is None)):
+                            return bq_type
+
+                    elif re.search(source_datatype, self._data_type) \
+                        and (  self._source_database == source_db
+                            or (self._source_database is not None and source_db is None)):
+                        return bq_type
+
+        if self._data_type in ["NUMERIC", "NUMBER", "DECIMAL"]:
             return "INTEGER" if self._scale is None else "FLOAT"
 
         raise ValueError("Unknown data type : '{}'".format(self._data_type))
@@ -188,7 +209,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
         return '{{"name": "{}", "type": "{}", "mode": "{}"}}'.format(self._get_name(name_case), self.bigquery_data_type, self.bigquery_mode)
 
 
-class DdlParseColumnDict(OrderedDict):
+class DdlParseColumnDict(OrderedDict, DdlParseBase):
     """
     Columns dictionary collection
 
@@ -197,8 +218,9 @@ class DdlParseColumnDict(OrderedDict):
       (SQL is case insensitive)
     """
 
-    def __init__(self):
+    def __init__(self, source_database=None):
         super().__init__()
+        self.source_database = source_database
 
     def __getitem__(self, key):
         return super().__getitem__(key.lower())
@@ -206,19 +228,45 @@ class DdlParseColumnDict(OrderedDict):
     def __setitem__(self, key, value):
         super().__setitem__(key.lower(), value)
 
-    def append(self, column_name, data_type_array=None, constraint=None):
-        column = DdlParseColumn(column_name, data_type_array, constraint)
+    def append(self, column_name, data_type_array=None, constraint=None, source_database=None):
+        if source_database is None:
+            source_database = self.source_database
+
+        column = DdlParseColumn(column_name, data_type_array, constraint, source_database)
         self.__setitem__(column_name, column)
         return column
+
+    def to_bigquery_fields(self, name_case=DdlParseBase.NAME_CASE.original):
+        """Generate BigQuery JSON fields define"""
+
+        bq_fields = []
+
+        for col in self.values():
+            bq_fields.append(col.to_bigquery_field(name_case))
+
+        return "[{}]".format(",".join(bq_fields))
 
 
 class DdlParseTable(DdlParseTableColumnBase):
     """Table define info"""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, source_database=None):
+        super().__init__(source_database)
         self._schema = None
-        self._columns = DdlParseColumnDict()
+        self._columns = DdlParseColumnDict(source_database)
+
+    @property
+    def source_database(self):
+        """
+        Source database option
+        :param source_database: enum DdlParse.DATABASE
+        """
+        return super().source_database
+
+    @source_database.setter
+    def source_database(self, source_database):
+        super(self.__class__, self.__class__).source_database.__set__(self, source_database)
+        self._columns.source_database = source_database
 
     @property
     def is_temp(self):
@@ -246,12 +294,7 @@ class DdlParseTable(DdlParseTableColumnBase):
     def to_bigquery_fields(self, name_case=DdlParseBase.NAME_CASE.original):
         """Generate BigQuery JSON fields define"""
 
-        bq_fields = []
-
-        for col in self._columns.values():
-            bq_fields.append(col.to_bigquery_field(name_case))
-
-        return "[{}]".format(",".join(bq_fields))
+        return self._columns.to_bigquery_fields(name_case)
 
 
 class DdlParse(DdlParseBase):
@@ -295,10 +338,23 @@ class DdlParse(DdlParseBase):
     _DDL_PARSE_EXPR << OneOrMore(_COMMENT | _CREATE_TABLE_STATEMENT)
 
 
-    def __init__(self, ddl=None):
-        super().__init__()
+    def __init__(self, ddl=None, source_database=None):
+        super().__init__(source_database)
         self._ddl = ddl
-        self._table = DdlParseTable()
+        self._table = DdlParseTable(source_database)
+
+    @property
+    def source_database(self):
+        """
+        Source database option
+        :param source_database: enum DdlParse.DATABASE
+        """
+        return super().source_database
+
+    @source_database.setter
+    def source_database(self, source_database):
+        super(self.__class__, self.__class__).source_database.__set__(self, source_database)
+        self._table.source_database = source_database
 
     @property
     def ddl(self):
@@ -309,7 +365,7 @@ class DdlParse(DdlParseBase):
     def ddl(self, ddl):
         self._ddl = ddl
 
-    def parse(self, ddl=None):
+    def parse(self, ddl=None, source_database=None):
         """
         Parse DDL script.
 
@@ -319,6 +375,9 @@ class DdlParse(DdlParseBase):
 
         if ddl is not None:
             self._ddl = ddl
+
+        if source_database is not None:
+            self.source_database = source_database
 
         if self._ddl is None:
             raise ValueError("DDL is not specified")
@@ -336,7 +395,9 @@ class DdlParse(DdlParseBase):
 
             if ret_col.getName() == "column":
                 # add column
-                col = self._table.columns.append(ret_col["name"], ret_col["type"])
+                col = self._table.columns.append(
+                    column_name=ret_col["name"],
+                    data_type_array=ret_col["type"])
 
                 if "constraint" in ret_col:
                     col.constraint = ret_col["constraint"]

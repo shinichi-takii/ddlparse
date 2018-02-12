@@ -1,13 +1,19 @@
 # Changelog
 
+## 1.1.0
+- Add `source_database` option.
+- Add `to_bigquery_fields` method to Columns dicttionary(`DdlParseColumnDict` class).
+- Fix BigQuery convert of Oracle data type.
+  - Oracle 'DATE' -> BigQuery 'DATETIME'
+
 ## 1.0.2
-- Miner enhancement
+- Miner enhancement.
     - `ddlparse.py` : Exclude unused module.
     - `example.py` : Modified comment.
     - `README.md` : Miner fix.
 
 ## 1.0.1
-- Miner enhancement
+- Miner enhancement.
 
 ## 1.0.0
-- Initial released
+- Initial released.

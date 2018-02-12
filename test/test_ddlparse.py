@@ -33,13 +33,17 @@ TEST_DATA = {
               Col_19 timestamp with time zone,
               Col_20 bool,
               Col_21 numeric(10),
-              Col_22 decimal(20),
-              Col_23 numeric(30,0),
-              Col_24 decimal(40,0),
-              Col_25 numeric(50,1),
-              Col_26 decimal(60,2)
+              Col_22 number(10),
+              Col_23 decimal(20),
+              Col_24 numeric(30,0),
+              Col_25 number(30,0),
+              Col_26 decimal(40,0),
+              Col_27 numeric(50,1),
+              Col_28 number(50,1),
+              Col_29 decimal(60,2)
             );
             """,
+        "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
             {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
@@ -63,11 +67,14 @@ TEST_DATA = {
             {"name" : "Col_19", "type" : "TIMESTAMP WITH TIME ZONE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_20", "type" : "BOOL", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_21", "type" : "NUMERIC", "length" : 10, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_22", "type" : "DECIMAL", "length" : 20, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_23", "type" : "NUMERIC", "length" : 30, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_24", "type" : "DECIMAL", "length" : 40, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_25", "type" : "NUMERIC", "length" : 50, "scale" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_26", "type" : "DECIMAL", "length" : 60, "scale" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_22", "type" : "NUMBER", "length" : 10, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_23", "type" : "DECIMAL", "length" : 20, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_24", "type" : "NUMERIC", "length" : 30, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_25", "type" : "NUMBER", "length" : 30, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_26", "type" : "DECIMAL", "length" : 40, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_27", "type" : "NUMERIC", "length" : 50, "scale" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_28", "type" : "NUMBER", "length" : 50, "scale" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_29", "type" : "DECIMAL", "length" : 60, "scale" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -94,8 +101,11 @@ TEST_DATA = {
             '{"name": "Col_22", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_23", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_24", "type": "INTEGER", "mode": "NULLABLE"}',
-            '{"name": "Col_25", "type": "FLOAT", "mode": "NULLABLE"}',
-            '{"name": "Col_26", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_25", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_26", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_27", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_28", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_29", "type": "FLOAT", "mode": "NULLABLE"}',
         ],
     },
 
@@ -113,6 +123,7 @@ TEST_DATA = {
               CONSTRAINT const_02 UNIQUE (Col_03, Col_04)
             );
             """,
+        "database" : DdlParse.DATABASE.mysql,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
             {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
@@ -145,6 +156,7 @@ TEST_DATA = {
               NOT NULL (Col_04, Col_05)
             );
             """,
+        "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
             {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
@@ -162,6 +174,25 @@ TEST_DATA = {
         ],
     },
 
+
+    "datatype_oracle" :
+    {
+        "ddl" :
+            """
+            CREATE TABLE Sample_Table (
+              Col_01 date
+            );
+            """,
+        "database" : DdlParse.DATABASE.oracle,
+        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
+        "columns" : [
+            {"name" : "Col_01", "type" : "DATE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+        ],
+        "bq_field" : [
+            '{"name": "Col_01", "type": "DATETIME", "mode": "NULLABLE"}',
+        ],
+    },
+
     "name_backquote" :
     {
         "ddl" :
@@ -176,6 +207,7 @@ TEST_DATA = {
               UNIQUE (`Col_03`, `Col_04`)
             );
             """,
+        "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
             {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
@@ -207,6 +239,7 @@ TEST_DATA = {
               UNIQUE ("Col_03", "Col_04")
             );
             """,
+        "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
             {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
@@ -232,6 +265,7 @@ TEST_DATA = {
               Col_01 varchar(100)
             );
             """,
+        "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : True},
         "columns" : [
             {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
@@ -249,6 +283,7 @@ TEST_DATA = {
               Col_01 varchar(100)
             );
             """,
+        "database" : None,
         "table" : {"schema" : "My_Schema", "name" : "Sample_Table", "temp" : False},
         "columns" : [
             {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
@@ -268,6 +303,7 @@ DDL_SET_PATTERN = IntEnum("DDL_SET_PATTERN", "method property")
     ("basic", DDL_SET_PATTERN.property),
     ("constraint_mysql", DDL_SET_PATTERN.method),
     ("constraint_postgres_oracle_redshift", DDL_SET_PATTERN.method),
+    ("datatype_oracle", DDL_SET_PATTERN.method),
     ("name_backquote", DDL_SET_PATTERN.method),
     ("name_doublequote", DDL_SET_PATTERN.method),
     ("temp_table", DDL_SET_PATTERN.method),
@@ -280,10 +316,17 @@ def test_parse(test_case, parse_pattern):
     # Create parse object instance
     ddlparse = DdlParse()
 
-    # Parse ddl
+    # Set source database option
+
+    # Set source database option & Parse ddl
     if parse_pattern == DDL_SET_PATTERN.method:
-        table = ddlparse.parse(data["ddl"])
+        if data["database"] is not None:
+            table = ddlparse.parse(data["ddl"], data["database"])
+        else:
+            table = ddlparse.parse(data["ddl"])
     else:
+        if data["database"] is not None:
+            ddlparse.source_database = data["database"]
         ddlparse.ddl = data["ddl"]
         table = ddlparse.parse()
 
@@ -291,11 +334,14 @@ def test_parse(test_case, parse_pattern):
     # Check DDL
     assert ddlparse.ddl == data["ddl"]
 
+    # Check source database option
+    assert ddlparse.source_database == data["database"]
 
     # Check table
     assert table.schema == data["table"]["schema"] if data["table"]["schema"] is not None else table.schema is None
     assert table.name == data["table"]["name"]
     assert table.is_temp == data["table"]["temp"]
+    assert table.source_database == data["database"]
 
 
     # Check columns
@@ -315,6 +361,7 @@ def test_parse(test_case, parse_pattern):
         assert col.primary_key == data_col["pk"]
         assert col.unique == data_col["unique"]
         assert col.constraint == data_col["constraint"]
+        assert col.source_database == data["database"]
 
         data_bq_field = data["bq_field"][i]
         assert col.to_bigquery_field() == data_bq_field
@@ -328,10 +375,16 @@ def test_parse(test_case, parse_pattern):
         i += 1
 
 
-    # Check BigQuery fields format
-    assert table.to_bigquery_fields() == "[{}]".format(",".join(data["bq_field"]))
-    assert table.to_bigquery_fields(col.NAME_CASE.lower) == "[{}]".format(",".join(data_bq_field_lower))
-    assert table.to_bigquery_fields(col.NAME_CASE.upper) == "[{}]".format(",".join(data_bq_field_upper))
+    # Check BigQuery fields format of DdlParseColumnDict
+    assert table.columns.to_bigquery_fields() == "[{}]".format(",".join(data["bq_field"]))
+    assert table.columns.to_bigquery_fields(col.NAME_CASE.lower) == "[{}]".format(",".join(data_bq_field_lower))
+    assert table.columns.to_bigquery_fields(col.NAME_CASE.upper) == "[{}]".format(",".join(data_bq_field_upper))
+    assert table.columns.source_database == data["database"]
+
+    # Check BigQuery fields format of DdlParseTable
+    assert table.columns.to_bigquery_fields() == table.to_bigquery_fields()
+    assert table.columns.to_bigquery_fields(col.NAME_CASE.lower) == table.to_bigquery_fields(col.NAME_CASE.lower)
+    assert table.columns.to_bigquery_fields(col.NAME_CASE.upper) == table.to_bigquery_fields(col.NAME_CASE.upper)
 
 
 def test_exception_ddl():
