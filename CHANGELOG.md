@@ -5,6 +5,7 @@
 - Add `to_bigquery_fields` method to Columns dicttionary(`DdlParseColumnDict` class).
 - Fix BigQuery convert of Oracle data type.
   - Oracle 'DATE' -> BigQuery 'DATETIME'
+  - Oracle 'NUMBER' -> BigQuery 'INTEGER' or 'FLOAT'
 
 ## 1.0.2
 - Miner enhancement.
