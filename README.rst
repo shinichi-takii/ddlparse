@@ -68,18 +68,39 @@ Example
       NAME varchar(100) NOT NULL,
       TOTAL bigint NOT NULL,
       AVG decimal(5,1) NOT NULL,
-      CREATED_AT timestamp,
+      CREATED_AT date, -- Oracle 'DATE' -> BigQuery 'DATETIME'
       UNIQUE (NAME)
     );
     """
 
-    # parse pattern (1)
+
+    # parse pattern (1-1)
     table = DdlParse().parse(sample_ddl)
 
-    # parse pattern (2)
+    # parse pattern (1-2) : Specify source database
+    table = DdlParse().parse(ddl=sample_ddl, source_database=DdlParse.DATABASE.oracle)
+
+
+    # parse pattern (2-1)
+    parser = DdlParse(sample_ddl)
+    table = parser.parse()
+
+    # parse pattern (2-2) : Specify source database
+    parser = DdlParse(ddl=sample_ddl, source_database=DdlParse.DATABASE.oracle)
+    table = parser.parse()
+
+
+    # parse pattern (3-1)
     parser = DdlParse()
     parser.ddl = sample_ddl
     table = parser.parse()
+
+    # parse pattern (3-2) : Specify source database
+    parser = DdlParse()
+    parser.source_database = DdlParse.DATABASE.oracle
+    parser.ddl = sample_ddl
+    table = parser.parse()
+
 
     print("* TABLE *")
     print("schema = {} : name = {} : is_temp = {}".format(table.schema, table.name, table.is_temp))
@@ -112,7 +133,8 @@ Example
 License
 -------
 
-`BSD 3-Clause License <LICENSE.md>`__
+`BSD 3-Clause
+License <https://github.com/shinichi-takii/ddlparse/LICENSE.md>`__
 
 Author
 ------
