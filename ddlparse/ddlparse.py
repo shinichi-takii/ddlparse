@@ -329,7 +329,7 @@ class DdlParse(DdlParseBase):
                         + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION"))
                         + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + _RPAR)
                         )("type")
-                    + Optional(Word(alphanums+"_' "))("constraint")
+                    + Optional(Word(alphanums+"_': "))("constraint")
                 )("column")
             )
         )("columns")

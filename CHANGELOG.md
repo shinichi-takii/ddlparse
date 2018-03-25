@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1
+- Fix Postgres/Redshift parse of "::" syntax in field attribute.
+
 ## 1.1.0
 - Add `source_database` option.
 - Add `to_bigquery_fields` method to Columns dicttionary(`DdlParseColumnDict` class).

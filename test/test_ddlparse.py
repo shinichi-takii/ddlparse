@@ -141,6 +141,7 @@ TEST_DATA = {
         ],
     },
 
+
     "constraint_postgres_oracle_redshift" :
     {
         "ddl" :
@@ -174,6 +175,26 @@ TEST_DATA = {
         ],
     },
 
+    "default_postgres_redshift" :
+    {
+        "ddl" :
+            """
+            CREATE TABLE Sample_Table (
+              Col_01 char(1) DEFAULT '0'::bpchar,
+              Col_02 char(1) DEFAULT '0'::bpchar
+            );
+            """,
+        "database" : None,
+        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
+        "columns" : [
+            {"name" : "Col_01", "type" : "CHAR", "length" : 1, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_02", "type" : "CHAR", "length" : 1, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+        ],
+        "bq_field" : [
+            '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
+            '{"name": "Col_02", "type": "STRING", "mode": "NULLABLE"}',
+        ],
+    },
 
     "datatype_oracle" :
     {
@@ -303,6 +324,7 @@ DDL_SET_PATTERN = IntEnum("DDL_SET_PATTERN", "method property")
     ("basic", DDL_SET_PATTERN.property),
     ("constraint_mysql", DDL_SET_PATTERN.method),
     ("constraint_postgres_oracle_redshift", DDL_SET_PATTERN.method),
+    ("default_postgres_redshift", DDL_SET_PATTERN.method),
     ("datatype_oracle", DDL_SET_PATTERN.method),
     ("name_backquote", DDL_SET_PATTERN.method),
     ("name_doublequote", DDL_SET_PATTERN.method),
