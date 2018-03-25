@@ -134,7 +134,7 @@ License
 -------
 
 `BSD 3-Clause
-License <https://github.com/shinichi-takii/ddlparse/LICENSE.md>`__
+License <https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE.md>`__
 
 Author
 ------

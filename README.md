@@ -123,7 +123,7 @@ print(table.columns["total"])
 
 ## License
 
-[BSD 3-Clause License](https://github.com/shinichi-takii/ddlparse/LICENSE.md)
+[BSD 3-Clause License](https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE.md)
 
 ## Author
 
