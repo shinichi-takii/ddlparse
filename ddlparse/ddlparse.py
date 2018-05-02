@@ -165,7 +165,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
 
         # BigQuery data type = {source_database: [data type, ...], ...}
         BQ_DATA_TYPE_DIC = OrderedDict()
-        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT)")]}
+        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT|CLOB)")]}
         BQ_DATA_TYPE_DIC["INTEGER"] = {None: [re.compile(r"INT|SERIAL|YEAR")]}
         BQ_DATA_TYPE_DIC["FLOAT"] = {None: [re.compile(r"(FLOAT|DOUBLE)"), "REAL", "MONEY"]}
         BQ_DATA_TYPE_DIC["DATETIME"] = {
@@ -193,7 +193,15 @@ class DdlParseColumn(DdlParseTableColumnBase):
                         return bq_type
 
         if self._data_type in ["NUMERIC", "NUMBER", "DECIMAL"]:
-            return "INTEGER" if self._scale is None else "FLOAT"
+            if self._scale is not None:
+                return "FLOAT"
+
+            if self._data_type == "NUMBER" \
+                and self._source_database == self.DATABASE.oracle \
+                and self._length is None:
+                return "FLOAT"
+
+            return "INTEGER"
 
         raise ValueError("Unknown data type : '{}'".format(self._data_type))
 
@@ -329,7 +337,7 @@ class DdlParse(DdlParseBase):
                         + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION"))
                         + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + _RPAR)
                         )("type")
-                    + Optional(Word(alphanums+"_': "))("constraint")
+                    + Optional(Word(alphanums+"_': -"))("constraint")
                 )("column")
             )
         )("columns")

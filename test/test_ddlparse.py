@@ -201,16 +201,31 @@ TEST_DATA = {
         "ddl" :
             """
             CREATE TABLE Sample_Table (
-              Col_01 date
+              Col_01 date,
+              Col_02 number(1),
+              Col_03 number(1,2),
+              Col_04 number,
+              Col_05 clob,
+              Col_06 nclob
             );
             """,
         "database" : DdlParse.DATABASE.oracle,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
             {"name" : "Col_01", "type" : "DATE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_02", "type" : "NUMBER", "length" : 1, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_03", "type" : "NUMBER", "length" : 1, "scale" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_04", "type" : "NUMBER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_05", "type" : "CLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_06", "type" : "NCLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "DATETIME", "mode": "NULLABLE"}',
+            '{"name": "Col_02", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_03", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_05", "type": "STRING", "mode": "NULLABLE"}',
+            '{"name": "Col_06", "type": "STRING", "mode": "NULLABLE"}',
         ],
     },
 
