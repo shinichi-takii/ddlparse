@@ -75,6 +75,10 @@ table = DdlParse().parse(ddl=sample_ddl, source_database=DdlParse.DATABASE.oracl
 parser = DdlParse(sample_ddl)
 table = parser.parse()
 
+print("* BigQuery Fields * : normal")
+print(table.to_bigquery_fields())
+
+
 # parse pattern (2-2) : Specify source database
 parser = DdlParse(ddl=sample_ddl, source_database=DdlParse.DATABASE.oracle)
 table = parser.parse()
@@ -90,6 +94,9 @@ parser = DdlParse()
 parser.source_database = DdlParse.DATABASE.oracle
 parser.ddl = sample_ddl
 table = parser.parse()
+
+print("* BigQuery Fields * : Oracle")
+print(table.to_bigquery_fields())
 
 
 print("* TABLE *")
