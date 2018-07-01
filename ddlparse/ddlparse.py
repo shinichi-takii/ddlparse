@@ -309,8 +309,8 @@ class DdlParse(DdlParseBase):
     """DDL parser"""
 
     _LPAR, _RPAR, _COMMA, _SEMICOLON, _DOT, _DOUBLEQUOTE, _BACKQUOTE, _SPACE = map(Suppress, "(),;.\"` ")
-    _CREATE, _TABLE, _TEMP, _CONSTRAINT, _NOT_NULL, _PRIMARY_KEY, _UNIQUE, _UNIQUE_KEY, _KEY = \
-        map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, KEY".replace(", ", ",").split(","))
+    _CREATE, _TABLE, _TEMP, _CONSTRAINT, _NOT_NULL, _PRIMARY_KEY, _UNIQUE, _UNIQUE_KEY, _KEY, _CHAR_SEMANTICS, _BYTE_SEMANTICS = \
+        map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, KEY, CHAR, BYTE".replace(", ", ",").split(","))
     _SUPPRESS_QUOTE = _BACKQUOTE | _DOUBLEQUOTE
 
     _COMMENT = Suppress("--" + Regex(r".+"))
@@ -324,18 +324,19 @@ class DdlParse(DdlParseBase):
                 Suppress(_KEY + Word(alphanums+"_'`() "))
                 |
                 Group(
-                    Optional(Suppress(_CONSTRAINT) + Word(alphanums+"_")("name"))
+                    Optional(Suppress(_CONSTRAINT) + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE))
                     + (_PRIMARY_KEY ^ _UNIQUE ^ _UNIQUE_KEY ^ _NOT_NULL)("type")
                     + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums+"_"))("name") + Optional(_SUPPRESS_QUOTE)
                     + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
                 )("constraint")
                 |
                 Group(
-                    Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE)
+                    Optional(_COMMENT)
+                    + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE)
                     + Group(
                           Word(alphanums+"_")
                         + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION"))
-                        + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + _RPAR)
+                        + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
                         )("type")
                     + Optional(Word(alphanums+"_': -"))("constraint")
                 )("column")
