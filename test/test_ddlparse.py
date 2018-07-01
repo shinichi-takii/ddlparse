@@ -39,8 +39,8 @@ TEST_DATA = {
               Col_25 number(30,0),
               Col_26 decimal(40,0),
               Col_27 numeric(50,1),
-              Col_28 number(50,1),
-              Col_29 decimal(60,2)
+              Col_28 number(50,1), -- comment
+              Col_29 decimal(60,2)  -- comment
             );
             """,
         "database" : None,
@@ -120,7 +120,7 @@ TEST_DATA = {
               Col_04 double,
               Col_05 datetime,
               CONSTRAINT const_01 PRIMARY KEY (Col_01, Col_02),
-              CONSTRAINT const_02 UNIQUE (Col_03, Col_04)
+              CONSTRAINT \"const_02\" UNIQUE (Col_03, Col_04)
             );
             """,
         "database" : DdlParse.DATABASE.mysql,
@@ -205,8 +205,10 @@ TEST_DATA = {
               Col_02 number(1),
               Col_03 number(1,2),
               Col_04 number,
-              Col_05 clob,
-              Col_06 nclob
+              Col_05 varchar2(3 char), -- character semantics
+              Col_06 varchar2(4 byte), -- byte semantics
+              Col_07 clob,
+              Col_08 nclob
             );
             """,
         "database" : DdlParse.DATABASE.oracle,
@@ -216,8 +218,10 @@ TEST_DATA = {
             {"name" : "Col_02", "type" : "NUMBER", "length" : 1, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_03", "type" : "NUMBER", "length" : 1, "scale" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_04", "type" : "NUMBER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_05", "type" : "CLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_06", "type" : "NCLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_05", "type" : "VARCHAR2", "length" : 3, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_06", "type" : "VARCHAR2", "length" : 4, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_07", "type" : "CLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_08", "type" : "NCLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "DATETIME", "mode": "NULLABLE"}',
@@ -226,6 +230,8 @@ TEST_DATA = {
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_06", "type": "STRING", "mode": "NULLABLE"}',
+            '{"name": "Col_07", "type": "STRING", "mode": "NULLABLE"}',
+            '{"name": "Col_08", "type": "STRING", "mode": "NULLABLE"}',
         ],
     },
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3
+- Add support inline comment.
+- Add support constraint name with quotes.
+- Add support Oracle Length Semantics for Character Datatypes.
+
 ## 1.1.2
 - Add support Oracle data type.
     - `CLOB`, `NCLOB`
