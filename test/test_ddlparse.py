@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import pytest, re
+import pytest, re, textwrap
 from enum import IntEnum
 
 from ddlparse.ddlparse import DdlParse
@@ -107,6 +107,37 @@ TEST_DATA = {
             '{"name": "Col_28", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_29", "type": "FLOAT", "mode": "NULLABLE"}',
         ],
+        "bq_standard_data_type" : [
+            "STRING",
+            "STRING",
+            "STRING",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "DATE",
+            "TIME",
+            "DATETIME",
+            "DATETIME",
+            "DATETIME",
+            "TIMESTAMP",
+            "TIMESTAMP",
+            "BOOL",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+        ],
     },
 
     "constraint_mysql" :
@@ -138,6 +169,13 @@ TEST_DATA = {
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "NULLABLE"}',
+        ],
+        "bq_standard_data_type" : [
+            "STRING",
+            "STRING",
+            "INT64",
+            "FLOAT64",
+            "DATETIME",
         ],
     },
 
@@ -173,6 +211,13 @@ TEST_DATA = {
             '{"name": "Col_04", "type": "FLOAT", "mode": "REQUIRED"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "REQUIRED"}',
         ],
+        "bq_standard_data_type" : [
+            "STRING",
+            "STRING",
+            "INT64",
+            "FLOAT64",
+            "DATETIME",
+        ],
     },
 
     "default_postgres_redshift" :
@@ -193,6 +238,10 @@ TEST_DATA = {
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_02", "type": "STRING", "mode": "NULLABLE"}',
+        ],
+        "bq_standard_data_type" : [
+            "STRING",
+            "STRING",
         ],
     },
 
@@ -233,6 +282,16 @@ TEST_DATA = {
             '{"name": "Col_07", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_08", "type": "STRING", "mode": "NULLABLE"}',
         ],
+        "bq_standard_data_type" : [
+            "DATETIME",
+            "INT64",
+            "FLOAT64",
+            "FLOAT64",
+            "STRING",
+            "STRING",
+            "STRING",
+            "STRING",
+        ],
     },
 
     "name_backquote" :
@@ -264,6 +323,13 @@ TEST_DATA = {
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "NULLABLE"}',
+        ],
+        "bq_standard_data_type" : [
+            "STRING",
+            "STRING",
+            "INT64",
+            "FLOAT64",
+            "DATETIME",
         ],
     },
 
@@ -297,6 +363,13 @@ TEST_DATA = {
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "NULLABLE"}',
         ],
+        "bq_standard_data_type" : [
+            "STRING",
+            "STRING",
+            "INT64",
+            "FLOAT64",
+            "DATETIME",
+        ],
     },
 
     "temp_table" :
@@ -314,6 +387,9 @@ TEST_DATA = {
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
+        ],
+        "bq_standard_data_type" : [
+            "STRING",
         ],
     },
 
@@ -333,6 +409,115 @@ TEST_DATA = {
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
         ],
+        "bq_standard_data_type" : [
+            "STRING",
+        ],
+    },
+}
+
+
+TEST_DATA_DDL = {
+    "exist_schema_name": {
+        "source_ddl":
+            """
+            CREATE TABLE Test_Schema.Test_Table (
+              Col_01 varchar(100) PRIMARY KEY,
+              Col_02 char(200) NOT NULL UNIQUE,
+              Col_03 integer UNIQUE,
+              Col_04 double,
+              Col_05 datetime NOT NULL,
+              Col_06 bool
+            );
+            """,
+        "bq_ddl": {
+            DdlParse.NAME_CASE.original:
+                """\
+                #standardSQL
+                CREATE TABLE `project.Test_Schema.Test_Table`
+                (
+                  Col_01 STRING NOT NULL,
+                  Col_02 STRING NOT NULL,
+                  Col_03 INT64,
+                  Col_04 FLOAT64,
+                  Col_05 DATETIME NOT NULL,
+                  Col_06 BOOL
+                )""",
+            DdlParse.NAME_CASE.lower:
+                """\
+                #standardSQL
+                CREATE TABLE `project.test_schema.test_table`
+                (
+                  col_01 STRING NOT NULL,
+                  col_02 STRING NOT NULL,
+                  col_03 INT64,
+                  col_04 FLOAT64,
+                  col_05 DATETIME NOT NULL,
+                  col_06 BOOL
+                )""",
+            DdlParse.NAME_CASE.upper:
+                """\
+                #standardSQL
+                CREATE TABLE `project.TEST_SCHEMA.TEST_TABLE`
+                (
+                  COL_01 STRING NOT NULL,
+                  COL_02 STRING NOT NULL,
+                  COL_03 INT64,
+                  COL_04 FLOAT64,
+                  COL_05 DATETIME NOT NULL,
+                  COL_06 BOOL
+                )""",
+        },
+    },
+    "no_schema_name": {
+        "source_ddl":
+            """
+            CREATE TABLE Test_Table (
+              Col_01 varchar(100) PRIMARY KEY,
+              Col_02 char(200) NOT NULL UNIQUE,
+              Col_03 integer UNIQUE,
+              Col_04 double,
+              Col_05 datetime NOT NULL,
+              Col_06 bool
+            );
+            """,
+        "bq_ddl": {
+            DdlParse.NAME_CASE.original:
+                """\
+                #standardSQL
+                CREATE TABLE `project.dataset.Test_Table`
+                (
+                  Col_01 STRING NOT NULL,
+                  Col_02 STRING NOT NULL,
+                  Col_03 INT64,
+                  Col_04 FLOAT64,
+                  Col_05 DATETIME NOT NULL,
+                  Col_06 BOOL
+                )""",
+            DdlParse.NAME_CASE.lower:
+                """\
+                #standardSQL
+                CREATE TABLE `project.dataset.test_table`
+                (
+                  col_01 STRING NOT NULL,
+                  col_02 STRING NOT NULL,
+                  col_03 INT64,
+                  col_04 FLOAT64,
+                  col_05 DATETIME NOT NULL,
+                  col_06 BOOL
+                )""",
+            DdlParse.NAME_CASE.upper:
+                """\
+                #standardSQL
+                CREATE TABLE `project.dataset.TEST_TABLE`
+                (
+                  COL_01 STRING NOT NULL,
+                  COL_02 STRING NOT NULL,
+                  COL_03 INT64,
+                  COL_04 FLOAT64,
+                  COL_05 DATETIME NOT NULL,
+                  COL_06 BOOL
+                )""",
+        },
     },
 }
 
@@ -415,6 +600,9 @@ def test_parse(test_case, parse_pattern):
         data_bq_field_upper.append(re.sub(r'({"name": ")Col', r'\1COL', data_bq_field))
         assert col.to_bigquery_field(col.NAME_CASE.upper) == data_bq_field_upper[-1]
 
+        assert col.bigquery_legacy_data_type == col.bigquery_data_type
+        assert col.bigquery_standard_data_type == data["bq_standard_data_type"][i]
+
         i += 1
 
 
@@ -428,6 +616,24 @@ def test_parse(test_case, parse_pattern):
     assert table.columns.to_bigquery_fields() == table.to_bigquery_fields()
     assert table.columns.to_bigquery_fields(col.NAME_CASE.lower) == table.to_bigquery_fields(col.NAME_CASE.lower)
     assert table.columns.to_bigquery_fields(col.NAME_CASE.upper) == table.to_bigquery_fields(col.NAME_CASE.upper)
+
+
+@pytest.mark.parametrize(("test_case"), [
+    ("exist_schema_name"),
+    ("no_schema_name"),
+])
+def test_bq_ddl(test_case):
+    # Get test data
+    data = TEST_DATA_DDL[test_case]
+
+    # Parse ddl
+    table = DdlParse().parse(data["source_ddl"])
+
+    # Check generate BigQuery DDL statements of DdlParseTable
+    assert table.to_bigquery_ddl() == textwrap.dedent(data["bq_ddl"][DdlParse.NAME_CASE.original])
+    assert table.to_bigquery_ddl(DdlParse.NAME_CASE.original) == textwrap.dedent(data["bq_ddl"][DdlParse.NAME_CASE.original])
+    assert table.to_bigquery_ddl(DdlParse.NAME_CASE.lower) == textwrap.dedent(data["bq_ddl"][DdlParse.NAME_CASE.lower])
+    assert table.to_bigquery_ddl(DdlParse.NAME_CASE.upper) == textwrap.dedent(data["bq_ddl"][DdlParse.NAME_CASE.upper])
 
 
 def test_exception_ddl():
