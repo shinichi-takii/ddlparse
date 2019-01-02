@@ -27,6 +27,7 @@ class DdlParseBase():
     def source_database(self):
         """
         Source database option
+
         :param source_database: enum DdlParse.DATABASE
         """
         return self._source_database
@@ -51,14 +52,14 @@ class DdlParseTableColumnBase(DdlParseBase):
     def name(self, name):
         self._name = name
 
-    def _get_name(self, name_case=DdlParseBase.NAME_CASE.original):
+    def get_name(self, name_case=DdlParseBase.NAME_CASE.original):
         """
         Get Name converted case
 
         :param name_case: name case type
-            * NAME_CASE.original : Return to no convert
-            * NAME_CASE.lower : Return to lower
-            * NAME_CASE.upper : Return to upper
+            * DdlParse.NAME_CASE.original : Return to no convert
+            * DdlParse.NAME_CASE.lower : Return to lower
+            * DdlParse.NAME_CASE.upper : Return to upper
 
         :return: name
         """
@@ -161,7 +162,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
 
     @property
     def bigquery_data_type(self):
-        """Get BigQuery data type"""
+        """Get BigQuery Legacy SQL data type"""
 
         # BigQuery data type = {source_database: [data type, ...], ...}
         BQ_DATA_TYPE_DIC = OrderedDict()
@@ -206,6 +207,27 @@ class DdlParseColumn(DdlParseTableColumnBase):
         raise ValueError("Unknown data type : '{}'".format(self._data_type))
 
     @property
+    def bigquery_legacy_data_type(self):
+        """Get BigQuery Legacy SQL data type"""
+
+        return self.bigquery_data_type
+
+    @property
+    def bigquery_standard_data_type(self):
+        """Get BigQuery Standard SQL data type"""
+
+        legacy_data_type = self.bigquery_data_type
+
+        if legacy_data_type == "INTEGER":
+            return "INT64"
+        elif legacy_data_type == "FLOAT":
+            return "FLOAT64"
+        elif legacy_data_type == "BOOLEAN":
+            return "BOOL"
+
+        return legacy_data_type
+
+    @property
     def bigquery_mode(self):
         """Get BigQuery constraint"""
 
@@ -214,7 +236,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
     def to_bigquery_field(self, name_case=DdlParseBase.NAME_CASE.original):
         """Generate BigQuery JSON field define"""
 
-        return '{{"name": "{}", "type": "{}", "mode": "{}"}}'.format(self._get_name(name_case), self.bigquery_data_type, self.bigquery_mode)
+        return '{{"name": "{}", "type": "{}", "mode": "{}"}}'.format(self.get_name(name_case), self.bigquery_data_type, self.bigquery_mode)
 
 
 class DdlParseColumnDict(OrderedDict, DdlParseBase):
@@ -245,7 +267,16 @@ class DdlParseColumnDict(OrderedDict, DdlParseBase):
         return column
 
     def to_bigquery_fields(self, name_case=DdlParseBase.NAME_CASE.original):
-        """Generate BigQuery JSON fields define"""
+        """
+        Generate BigQuery JSON fields define
+
+        :param name_case: name case type
+            * DdlParse.NAME_CASE.original : Return to no convert
+            * DdlParse.NAME_CASE.lower : Return to lower
+            * DdlParse.NAME_CASE.upper : Return to upper
+
+        :return: BigQuery JSON fields define
+        """
 
         bq_fields = []
 
@@ -267,6 +298,7 @@ class DdlParseTable(DdlParseTableColumnBase):
     def source_database(self):
         """
         Source database option
+
         :param source_database: enum DdlParse.DATABASE
         """
         return super().source_database
@@ -300,9 +332,53 @@ class DdlParseTable(DdlParseTableColumnBase):
         return self._columns
 
     def to_bigquery_fields(self, name_case=DdlParseBase.NAME_CASE.original):
-        """Generate BigQuery JSON fields define"""
+        """
+        Generate BigQuery JSON fields define
+
+        :param name_case: name case type
+            * DdlParse.NAME_CASE.original : Return to no convert
+            * DdlParse.NAME_CASE.lower : Return to lower
+            * DdlParse.NAME_CASE.upper : Return to upper
+
+        :return: BigQuery JSON fields define
+        """
 
         return self._columns.to_bigquery_fields(name_case)
+
+    def to_bigquery_ddl(self, name_case=DdlParseBase.NAME_CASE.original):
+        """
+        Generate BigQuery CREATE TABLE statements
+
+        :param name_case: name case type
+            * DdlParse.NAME_CASE.original : Return to no convert
+            * DdlParse.NAME_CASE.lower : Return to lower
+            * DdlParse.NAME_CASE.upper : Return to upper
+
+        :return: BigQuery CREATE TABLE statements
+        """
+
+        if self.schema is None:
+            dataset = "dataset"
+        elif name_case == self.NAME_CASE.lower:
+            dataset = self.schema.lower()
+        elif name_case == self.NAME_CASE.upper:
+            dataset = self.schema.upper()
+        else:
+            dataset = self.schema
+
+        cols_def = []
+        for col in self.columns.values():
+            cols_def.append("{name} {type}{not_null}".format(
+                name=col.get_name(name_case),
+                type=col.bigquery_standard_data_type,
+                not_null=" NOT NULL" if col.not_null else "",
+            ))
+
+        return "#standardSQL\nCREATE TABLE `project.{dataset}.{table}`\n(\n  {colmns_define}\n)".format(
+            dataset=dataset,
+            table=self.get_name(name_case),
+            colmns_define=",\n  ".join(cols_def),
+        )
 
 
 class DdlParse(DdlParseBase):
@@ -356,6 +432,7 @@ class DdlParse(DdlParseBase):
     def source_database(self):
         """
         Source database option
+
         :param source_database: enum DdlParse.DATABASE
         """
         return super().source_database

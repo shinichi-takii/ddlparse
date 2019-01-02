@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0
+- Add `DdlParseTable.to_bigquery_ddl` function.
+    - BigQuery DDL (CREATE TABLE) statement generate function.
+- Add `DdlParseColumn.bigquery_legacy_data_type` property.
+    - Get BigQuery Legacy SQL data property.
+    - Alias of `DdlParseColumn.bigquery_data_type` property.
+- Add `DdlParseColumn.bigquery_standard_data_type` property.
+    - Get BigQuery Standard SQL data property.
+
 ## 1.1.3
 - Add support inline comment.
 - Add support constraint name with quotes.

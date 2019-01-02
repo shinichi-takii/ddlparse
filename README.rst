@@ -1,18 +1,36 @@
 DDL Parse
 =========
 
-`PyPI version <https://pypi.python.org/pypi/ddlparse>`__ `Python
-version <https://pypi.python.org/pypi/ddlparse>`__ `Travis CI Build
-Status <https://travis-ci.org/shinichi-takii/ddlparse>`__ `Coveralls
-Coverage
-Status <https://coveralls.io/github/shinichi-takii/ddlparse?branch=master>`__
-`codecov Coverage
-Status <https://codecov.io/gh/shinichi-takii/ddlparse>`__ `Requirements
-Status <https://requires.io/github/shinichi-takii/ddlparse/requirements/?branch=master>`__
-`License <https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE.md>`__
+.. image:: https://img.shields.io/pypi/v/ddlparse.svg
+   :target: https://pypi.python.org/pypi/ddlparse
+   :alt: PyPI version
 
-*DDL parase and Convert to BigQuery JSON schema module, available in
-Python.*
+.. image:: https://img.shields.io/pypi/pyversions/ddlparse.svg
+   :target: https://pypi.python.org/pypi/ddlparse
+   :alt: Python version
+
+.. image:: https://travis-ci.org/shinichi-takii/ddlparse.svg?branch=master
+   :target: https://travis-ci.org/shinichi-takii/ddlparse
+   :alt: Travis CI Build Status
+
+.. image:: https://coveralls.io/repos/github/shinichi-takii/ddlparse/badge.svg?branch=master
+   :target: https://coveralls.io/github/shinichi-takii/ddlparse?branch=master
+   :alt: Coveralls Coverage Status
+
+.. image:: https://codecov.io/gh/shinichi-takii/ddlparse/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/shinichi-takii/ddlparse
+   :alt: codecov Coverage Status
+
+.. image:: https://requires.io/github/shinichi-takii/ddlparse/requirements.svg?branch=master
+   :target: https://requires.io/github/shinichi-takii/ddlparse/requirements/?branch=master
+   :alt: Requirements Status
+
+.. image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
+   :target: https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE.md
+   :alt: License
+
+*DDL parase and Convert to BigQuery JSON schema and DDL statements
+module, available in Python.*
 
 --------------
 
@@ -21,9 +39,11 @@ Features
 
 -  DDL parse and get table schema information.
 -  Currently, only the ``CREATE TABLE`` statement is supported.
--  Supported databases are MySQL, PostgreSQL, Oracle, Redshift.
 -  Convert to `BigQuery JSON
-   schema <https://cloud.google.com/bigquery/docs/schemas#creating_a_json_schema_file>`__.
+   schema <https://cloud.google.com/bigquery/docs/schemas#creating_a_json_schema_file>`__
+   and `BigQuery DDL
+   statements <https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language>`__.
+-  Supported databases are MySQL, PostgreSQL, Oracle, Redshift.
 
 Requirement
 -----------
@@ -66,15 +86,15 @@ Example
 
 .. code:: python
 
-   from ddlparse import DdlParse
+   from ddlparse.ddlparse import DdlParse
 
    sample_ddl = """
    CREATE TABLE My_Schema.Sample_Table (
-     ID integer PRIMARY KEY,
-     NAME varchar(100) NOT NULL,
-     TOTAL bigint NOT NULL,
-     AVG decimal(5,1) NOT NULL,
-     CREATED_AT date, -- Oracle 'DATE' -> BigQuery 'DATETIME'
+     Id integer PRIMARY KEY,
+     Name varchar(100) NOT NULL,
+     Total bigint NOT NULL,
+     Avg decimal(5,1) NOT NULL,
+     Created_At date, -- Oracle 'DATE' -> BigQuery 'DATETIME'
      UNIQUE (NAME)
    );
    """
@@ -127,18 +147,28 @@ Example
 
    print("* COLUMN *")
    for col in table.columns.values():
-       print("name = {} : data_type = {} : length = {} : precision(=length) = {} : scale = {} : constraint = {} : not_null =  {} : PK =  {} : unique =  {} : BQ {}".format(
-           col.name,
-           col.data_type,
-           col.length,
-           col.precision,
-           col.scale,
-           col.constraint,
-           col.not_null,
-           col.primary_key,
-           col.unique,
-           col.to_bigquery_field()
-           ))
+       col_info = []
+       col_info.append("name = {}".format(col.name))
+       col_info.append("data_type = {}".format(col.data_type))
+       col_info.append("length = {}".format(col.length))
+       col_info.append("precision(=length) = {}".format(col.precision))
+       col_info.append("scale = {}".format(col.scale))
+       col_info.append("constraint = {}".format(col.constraint))
+       col_info.append("not_null =  {}".format(col.not_null))
+       col_info.append("PK =  {}".format(col.primary_key))
+       col_info.append("unique =  {}".format(col.unique))
+       col_info.append("bq_data_type =  {}".format(col.bigquery_data_type))
+       col_info.append("bq_legacy_data_type =  {}".format(col.bigquery_legacy_data_type))
+       col_info.append("bq_standard_data_type =  {}".format(col.bigquery_standard_data_type))
+       col_info.append("BQ {}".format(col.to_bigquery_field()))
+       print(" : ".join(col_info))
+
+   print("* DDL (CREATE TABLE) statements *")
+   print(table.to_bigquery_ddl())
+
+   print("* DDL (CREATE TABLE) statements - dataset name, table name and column name to lower case / upper case *")
+   print(table.to_bigquery_ddl(DdlParse.NAME_CASE.lower))
+   print(table.to_bigquery_ddl(DdlParse.NAME_CASE.upper))
 
    print("* Get Column object (case insensitive) *")
    print(table.columns["total"])

@@ -8,7 +8,7 @@
 [![Requirements Status](https://requires.io/github/shinichi-takii/ddlparse/requirements.svg?branch=master)](https://requires.io/github/shinichi-takii/ddlparse/requirements/?branch=master)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/shinichi-takii/ddlparse/blob/master/LICENSE.md)
 
-*DDL parase and Convert to BigQuery JSON schema module, available in Python.*
+*DDL parase and Convert to BigQuery JSON schema and DDL statements module, available in Python.*
 
 ----
 
@@ -16,8 +16,8 @@
 
 - DDL parse and get table schema information.
 - Currently, only the `CREATE TABLE` statement is supported.
+- Convert to [BigQuery JSON schema](https://cloud.google.com/bigquery/docs/schemas#creating_a_json_schema_file) and [BigQuery DDL statements](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language).
 - Supported databases are MySQL, PostgreSQL, Oracle, Redshift.
-- Convert to [BigQuery JSON schema](https://cloud.google.com/bigquery/docs/schemas#creating_a_json_schema_file).
 
 ## Requirement
 
@@ -50,15 +50,15 @@ $ pip install ddlparse --upgrade
 ### Example
 
 ```python
-from ddlparse import DdlParse
+from ddlparse.ddlparse import DdlParse
 
 sample_ddl = """
 CREATE TABLE My_Schema.Sample_Table (
-  ID integer PRIMARY KEY,
-  NAME varchar(100) NOT NULL,
-  TOTAL bigint NOT NULL,
-  AVG decimal(5,1) NOT NULL,
-  CREATED_AT date, -- Oracle 'DATE' -> BigQuery 'DATETIME'
+  Id integer PRIMARY KEY,
+  Name varchar(100) NOT NULL,
+  Total bigint NOT NULL,
+  Avg decimal(5,1) NOT NULL,
+  Created_At date, -- Oracle 'DATE' -> BigQuery 'DATETIME'
   UNIQUE (NAME)
 );
 """
@@ -111,18 +111,28 @@ print(table.to_bigquery_fields(DdlParse.NAME_CASE.upper))
 
 print("* COLUMN *")
 for col in table.columns.values():
-    print("name = {} : data_type = {} : length = {} : precision(=length) = {} : scale = {} : constraint = {} : not_null =  {} : PK =  {} : unique =  {} : BQ {}".format(
-        col.name,
-        col.data_type,
-        col.length,
-        col.precision,
-        col.scale,
-        col.constraint,
-        col.not_null,
-        col.primary_key,
-        col.unique,
-        col.to_bigquery_field()
-        ))
+    col_info = []
+    col_info.append("name = {}".format(col.name))
+    col_info.append("data_type = {}".format(col.data_type))
+    col_info.append("length = {}".format(col.length))
+    col_info.append("precision(=length) = {}".format(col.precision))
+    col_info.append("scale = {}".format(col.scale))
+    col_info.append("constraint = {}".format(col.constraint))
+    col_info.append("not_null =  {}".format(col.not_null))
+    col_info.append("PK =  {}".format(col.primary_key))
+    col_info.append("unique =  {}".format(col.unique))
+    col_info.append("bq_data_type =  {}".format(col.bigquery_data_type))
+    col_info.append("bq_legacy_data_type =  {}".format(col.bigquery_legacy_data_type))
+    col_info.append("bq_standard_data_type =  {}".format(col.bigquery_standard_data_type))
+    col_info.append("BQ {}".format(col.to_bigquery_field()))
+    print(" : ".join(col_info))
+
+print("* DDL (CREATE TABLE) statements *")
+print(table.to_bigquery_ddl())
+
+print("* DDL (CREATE TABLE) statements - dataset name, table name and column name to lower case / upper case *")
+print(table.to_bigquery_ddl(DdlParse.NAME_CASE.lower))
+print(table.to_bigquery_ddl(DdlParse.NAME_CASE.upper))
 
 print("* Get Column object (case insensitive) *")
 print(table.columns["total"])
