@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.1
+- Add supports for Python 3.7.
+    - Pass Python 3.7 test.
+- Add supports PostgreSQL data type.
+    - `CHARACTER VARYING`
+    - `JSON`
+    - Array type
+- Fix parse `DEFAULT` value.
+    - Add decimal point to `DEFAULT` parse character.
+
 ## 1.2.0
 - Add `DdlParseTable.to_bigquery_ddl` function.
     - BigQuery DDL (CREATE TABLE) statement generate function.

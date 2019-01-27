@@ -46,35 +46,35 @@ TEST_DATA = {
         "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "not_null" : True, "pk" : False, "unique" : True, "constraint" : "NOT NULL UNIQUE"},
-            {"name" : "Col_03", "type" : "TEXT", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_04", "type" : "INTEGER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_05", "type" : "BIGINT", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_06", "type" : "SERIAL", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_07", "type" : "YEAR", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_08", "type" : "FLOAT", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_09", "type" : "DOUBLE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_10", "type" : "DOUBLE PRECISION", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_11", "type" : "REAL", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_12", "type" : "MONEY", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_13", "type" : "DATE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_14", "type" : "TIME", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_15", "type" : "DATETIME", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_16", "type" : "TIMESTAMP", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_17", "type" : "TIMESTAMP WITHOUT TIME ZONE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_18", "type" : "TIMESTAMPTZ", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_19", "type" : "TIMESTAMP WITH TIME ZONE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_20", "type" : "BOOL", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_21", "type" : "NUMERIC", "length" : 10, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_22", "type" : "NUMBER", "length" : 10, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_23", "type" : "DECIMAL", "length" : 20, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_24", "type" : "NUMERIC", "length" : 30, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_25", "type" : "NUMBER", "length" : 30, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_26", "type" : "DECIMAL", "length" : 40, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_27", "type" : "NUMERIC", "length" : 50, "scale" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_28", "type" : "NUMBER", "length" : 50, "scale" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_29", "type" : "DECIMAL", "length" : 60, "scale" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : True, "constraint" : "NOT NULL UNIQUE"},
+            {"name" : "Col_03", "type" : "TEXT", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_04", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_05", "type" : "BIGINT", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_06", "type" : "SERIAL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_07", "type" : "YEAR", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_08", "type" : "FLOAT", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_09", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_10", "type" : "DOUBLE PRECISION", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_11", "type" : "REAL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_12", "type" : "MONEY", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_13", "type" : "DATE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_14", "type" : "TIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_15", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_16", "type" : "TIMESTAMP", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_17", "type" : "TIMESTAMP WITHOUT TIME ZONE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_18", "type" : "TIMESTAMPTZ", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_19", "type" : "TIMESTAMP WITH TIME ZONE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_20", "type" : "BOOL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_21", "type" : "NUMERIC", "length" : 10, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_22", "type" : "NUMBER", "length" : 10, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_23", "type" : "DECIMAL", "length" : 20, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_24", "type" : "NUMERIC", "length" : 30, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_25", "type" : "NUMBER", "length" : 30, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_26", "type" : "DECIMAL", "length" : 40, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_27", "type" : "NUMERIC", "length" : 50, "scale" : 1, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_28", "type" : "NUMBER", "length" : 50, "scale" : 1, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_29", "type" : "DECIMAL", "length" : 60, "scale" : 2, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -157,11 +157,11 @@ TEST_DATA = {
         "database" : DdlParse.DATABASE.mysql,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -198,11 +198,11 @@ TEST_DATA = {
         "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "not_null" : True, "pk" : False, "unique" : True, "constraint" : "NOT NULL UNIQUE"},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL"},
+            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : True, "constraint" : "NOT NULL UNIQUE"},
+            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL"},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -226,22 +226,34 @@ TEST_DATA = {
             """
             CREATE TABLE Sample_Table (
               Col_01 char(1) DEFAULT '0'::bpchar,
-              Col_02 char(1) DEFAULT '0'::bpchar
+              Col_02 char(1) DEFAULT '0'::bpchar,
+              Col_03 integer DEFAULT 0,
+              Col_04 numeric(10) DEFAULT 0,
+              Col_05 numeric(20,3) DEFAULT 0.0
             );
             """,
         "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "CHAR", "length" : 1, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 1, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "CHAR", "length" : 1, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_02", "type" : "CHAR", "length" : 1, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_04", "type" : "NUMERIC", "length" : 10, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_05", "type" : "NUMERIC", "length" : 20, "scale" : 3, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_02", "type": "STRING", "mode": "NULLABLE"}',
+            '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_04", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_05", "type": "FLOAT", "mode": "NULLABLE"}',
         ],
         "bq_standard_data_type" : [
             "STRING",
             "STRING",
+            "INT64",
+            "INT64",
+            "FLOAT64",
         ],
     },
 
@@ -263,14 +275,14 @@ TEST_DATA = {
         "database" : DdlParse.DATABASE.oracle,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "DATE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_02", "type" : "NUMBER", "length" : 1, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_03", "type" : "NUMBER", "length" : 1, "scale" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_04", "type" : "NUMBER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_05", "type" : "VARCHAR2", "length" : 3, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_06", "type" : "VARCHAR2", "length" : 4, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_07", "type" : "CLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
-            {"name" : "Col_08", "type" : "NCLOB", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "DATE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_02", "type" : "NUMBER", "length" : 1, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_03", "type" : "NUMBER", "length" : 1, "scale" : 2, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_04", "type" : "NUMBER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_05", "type" : "VARCHAR2", "length" : 3, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_06", "type" : "VARCHAR2", "length" : 4, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_07", "type" : "CLOB", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_08", "type" : "NCLOB", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "DATETIME", "mode": "NULLABLE"}',
@@ -294,6 +306,47 @@ TEST_DATA = {
         ],
     },
 
+    "datatype_postgres" :
+    {
+        "ddl" :
+            """
+            CREATE TABLE Sample_Table (
+              Col_01 character varying(100) PRIMARY KEY,
+              Col_02 json NOT NULL,
+              Col_03 integer[], -- one dimensional array
+              Col_04 integer[][], -- two dimensional array
+              Col_05 integer[][][], -- multiple dimensional array
+              Col_06 character varying[] -- character varying array
+            );
+            """,
+        "database" : None,
+        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
+        "columns" : [
+            {"name" : "Col_01", "type" : "CHARACTER VARYING", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_02", "type" : "JSON", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL"},
+            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_04", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_05", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 3, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_06", "type" : "CHARACTER VARYING", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+        ],
+        "bq_field" : [
+            '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
+            '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
+            '{"name": "Col_03", "type": "INTEGER", "mode": "REPEATED"}',
+            '{"name": "Col_04", "type": "RECORD", "mode": "REPEATED", "fields": [{"name": "dimension_1", "type": "INTEGER", "mode": "REPEATED"}]}',
+            '{"name": "Col_05", "type": "RECORD", "mode": "REPEATED", "fields": [{"name": "dimension_1", "type": "RECORD", "mode": "REPEATED", "fields": [{"name": "dimension_2", "type": "INTEGER", "mode": "REPEATED"}]}]}',
+            '{"name": "Col_06", "type": "STRING", "mode": "REPEATED"}',
+        ],
+        "bq_standard_data_type" : [
+            "STRING",
+            "STRING",
+            "INT64",
+            "INT64",
+            "INT64",
+            "STRING",
+        ],
+    },
+
     "name_backquote" :
     {
         "ddl" :
@@ -311,11 +364,11 @@ TEST_DATA = {
         "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -350,11 +403,11 @@ TEST_DATA = {
         "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY"},
+            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE"},
+            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -383,7 +436,7 @@ TEST_DATA = {
         "database" : None,
         "table" : {"schema" : None, "name" : "Sample_Table", "temp" : True},
         "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
@@ -404,7 +457,7 @@ TEST_DATA = {
         "database" : None,
         "table" : {"schema" : "My_Schema", "name" : "Sample_Table", "temp" : False},
         "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
@@ -519,6 +572,57 @@ TEST_DATA_DDL = {
                 )""",
         },
     },
+    "datatype_postgres": {
+        "source_ddl":
+            """
+            CREATE TABLE Test_Table (
+              Col_01 character varying(100) PRIMARY KEY,
+              Col_02 json NOT NULL,
+              Col_03 integer[], -- one dimensional array
+              Col_04 integer[][], -- two dimensional array
+              Col_05 integer[][][], -- multiple dimensional array
+              Col_06 character varying[] -- character varying array
+            );
+            """,
+        "bq_ddl": {
+            DdlParse.NAME_CASE.original:
+                """\
+                #standardSQL
+                CREATE TABLE `project.dataset.Test_Table`
+                (
+                  Col_01 STRING NOT NULL,
+                  Col_02 STRING NOT NULL,
+                  Col_03 ARRAY<INT64>,
+                  Col_04 ARRAY<STRUCT<dimension_1 ARRAY<INT64>>>,
+                  Col_05 ARRAY<STRUCT<dimension_1 ARRAY<STRUCT<dimension_2 ARRAY<INT64>>>>>,
+                  Col_06 ARRAY<STRING>
+                )""",
+            DdlParse.NAME_CASE.lower:
+                """\
+                #standardSQL
+                CREATE TABLE `project.dataset.test_table`
+                (
+                  col_01 STRING NOT NULL,
+                  col_02 STRING NOT NULL,
+                  col_03 ARRAY<INT64>,
+                  col_04 ARRAY<STRUCT<dimension_1 ARRAY<INT64>>>,
+                  col_05 ARRAY<STRUCT<dimension_1 ARRAY<STRUCT<dimension_2 ARRAY<INT64>>>>>,
+                  col_06 ARRAY<STRING>
+                )""",
+            DdlParse.NAME_CASE.upper:
+                """\
+                #standardSQL
+                CREATE TABLE `project.dataset.TEST_TABLE`
+                (
+                  COL_01 STRING NOT NULL,
+                  COL_02 STRING NOT NULL,
+                  COL_03 ARRAY<INT64>,
+                  COL_04 ARRAY<STRUCT<dimension_1 ARRAY<INT64>>>,
+                  COL_05 ARRAY<STRUCT<dimension_1 ARRAY<STRUCT<dimension_2 ARRAY<INT64>>>>>,
+                  COL_06 ARRAY<STRING>
+                )""",
+        },
+    },
 }
 
 
@@ -532,6 +636,7 @@ DDL_SET_PATTERN = IntEnum("DDL_SET_PATTERN", "method property")
     ("constraint_postgres_oracle_redshift", DDL_SET_PATTERN.method),
     ("default_postgres_redshift", DDL_SET_PATTERN.method),
     ("datatype_oracle", DDL_SET_PATTERN.method),
+    ("datatype_postgres", DDL_SET_PATTERN.method),
     ("name_backquote", DDL_SET_PATTERN.method),
     ("name_doublequote", DDL_SET_PATTERN.method),
     ("temp_table", DDL_SET_PATTERN.method),
@@ -585,6 +690,7 @@ def test_parse(test_case, parse_pattern):
         assert col.length == data_col["length"] if data_col["length"] is not None else col.length is None
         assert col.precision == data_col["length"] if data_col["length"] is not None else col.length is None
         assert col.scale == data_col["scale"] if data_col["scale"] is not None else col.scale is None
+        assert col.array_dimensional == data_col["array_dimensional"]
         assert col.not_null == data_col["not_null"]
         assert col.primary_key == data_col["pk"]
         assert col.unique == data_col["unique"]
@@ -621,6 +727,7 @@ def test_parse(test_case, parse_pattern):
 @pytest.mark.parametrize(("test_case"), [
     ("exist_schema_name"),
     ("no_schema_name"),
+    ("datatype_postgres"),
 ])
 def test_bq_ddl(test_case):
     # Get test data
