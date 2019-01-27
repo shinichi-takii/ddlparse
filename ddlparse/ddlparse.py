@@ -7,7 +7,7 @@
 
 """Parse DDL statements"""
 
-import re
+import re, textwrap, json
 from collections import OrderedDict
 from enum import IntEnum
 
@@ -74,16 +74,19 @@ class DdlParseTableColumnBase(DdlParseBase):
 class DdlParseColumn(DdlParseTableColumnBase):
     """Column define info"""
 
-    def __init__(self, name, data_type_array, constraint=None, source_database=None):
+    def __init__(self, name, data_type_array, array_brackets=None, constraint=None, source_database=None):
         """
         :param data_type_array[]: Column data type ['data type name'] or ['data type name', '(length)'] or ['data type name', '(precision, scale)']
+        :param array_brackets: Column array brackets string '[]' or '[][]...'
         :param constraint: Column constraint string
         :param source_database: enum DdlParse.DATABASE
         """
+
         super().__init__(source_database)
         self._name = name
         self._set_data_type(data_type_array)
         self.constraint = constraint
+        self._array_dimensional = 0 if array_brackets is None else array_brackets.count('[]')
 
     @property
     def data_type(self):
@@ -109,11 +112,12 @@ class DdlParseColumn(DdlParseTableColumnBase):
         if len(data_type_array) < 2:
             return
 
-        matches = re.findall(r"(\d+)\s*,*\s*(\d*)", data_type_array[1])
+        matches = re.findall(r"(\d+)\s*,*\s*(\d*)", data_type_array[-1])
         if len(matches) > 0:
             self._length = int(matches[0][0])
             self._scale = None if len(matches[0]) < 2 or matches[0][1] == "" or int(matches[0][1]) == 0 else int(matches[0][1])
-        else:
+
+        if re.search(r"^\D+", data_type_array[1]):
             self._data_type += " {}".format(data_type_array[1])
 
 
@@ -135,6 +139,11 @@ class DdlParseColumn(DdlParseTableColumnBase):
         self._not_null = False if self._constraint is None or not re.search(r"(NOT NULL|PRIMARY KEY)", self._constraint) else True
         self._pk = False if self._constraint is None or not re.search("PRIMARY KEY", self._constraint) else True
         self._unique = False if self._constraint is None or not re.search("UNIQUE", self._constraint) else True
+
+    @property
+    def array_dimensional(self):
+        """array dimensional number"""
+        return self._array_dimensional
 
     @property
     def not_null(self):
@@ -166,7 +175,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
 
         # BigQuery data type = {source_database: [data type, ...], ...}
         BQ_DATA_TYPE_DIC = OrderedDict()
-        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT|CLOB)")]}
+        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT|CLOB|JSON)")]}
         BQ_DATA_TYPE_DIC["INTEGER"] = {None: [re.compile(r"INT|SERIAL|YEAR")]}
         BQ_DATA_TYPE_DIC["FLOAT"] = {None: [re.compile(r"(FLOAT|DOUBLE)"), "REAL", "MONEY"]}
         BQ_DATA_TYPE_DIC["DATETIME"] = {
@@ -231,12 +240,48 @@ class DdlParseColumn(DdlParseTableColumnBase):
     def bigquery_mode(self):
         """Get BigQuery constraint"""
 
-        return "REQUIRED" if self.not_null else "NULLABLE"
+        if self.array_dimensional > 0:
+            return "REPEATED"
+        elif self.not_null:
+            return "REQUIRED"
+        else:
+            return "NULLABLE"
 
     def to_bigquery_field(self, name_case=DdlParseBase.NAME_CASE.original):
         """Generate BigQuery JSON field define"""
 
-        return '{{"name": "{}", "type": "{}", "mode": "{}"}}'.format(self.get_name(name_case), self.bigquery_data_type, self.bigquery_mode)
+        col_name = self.get_name(name_case)
+        mode = self.bigquery_mode
+
+        if self.array_dimensional <= 1:
+            # no or one dimensional array data type
+            type = self.bigquery_legacy_data_type
+
+        else:
+            # multiple dimensional array data type
+            type = "RECORD"
+
+            fields = OrderedDict()
+            fields_cur = fields
+
+            for i in range(1, self.array_dimensional):
+                is_last = True if i == self.array_dimensional - 1 else False
+
+                fields_cur['fields'] = [OrderedDict()]
+                fields_cur = fields_cur['fields'][0]
+
+                fields_cur['name'] = "dimension_{}".format(i)
+                fields_cur['type'] = self.bigquery_legacy_data_type if is_last else "RECORD"
+                fields_cur['mode'] = self.bigquery_mode if is_last else "REPEATED"
+
+        col = OrderedDict()
+        col['name'] = col_name
+        col['type'] = type
+        col['mode'] = mode
+        if self.array_dimensional > 1:
+            col['fields'] = fields['fields']
+
+        return json.dumps(col)
 
 
 class DdlParseColumnDict(OrderedDict, DdlParseBase):
@@ -258,11 +303,11 @@ class DdlParseColumnDict(OrderedDict, DdlParseBase):
     def __setitem__(self, key, value):
         super().__setitem__(key.lower(), value)
 
-    def append(self, column_name, data_type_array=None, constraint=None, source_database=None):
+    def append(self, column_name, data_type_array=None, array_brackets=None, constraint=None, source_database=None):
         if source_database is None:
             source_database = self.source_database
 
-        column = DdlParseColumn(column_name, data_type_array, constraint, source_database)
+        column = DdlParseColumn(column_name, data_type_array, array_brackets, constraint, source_database)
         self.__setitem__(column_name, column)
         return column
 
@@ -366,18 +411,42 @@ class DdlParseTable(DdlParseTableColumnBase):
         else:
             dataset = self.schema
 
-        cols_def = []
+        cols_defs = []
         for col in self.columns.values():
-            cols_def.append("{name} {type}{not_null}".format(
-                name=col.get_name(name_case),
-                type=col.bigquery_standard_data_type,
-                not_null=" NOT NULL" if col.not_null else "",
+            col_name = col.get_name(name_case)
+
+            if col.array_dimensional < 1:
+                # no array data type
+                type = col.bigquery_standard_data_type
+                not_null = " NOT NULL" if col.not_null else ""
+
+            else:
+                # one or multiple dimensional array data type
+                type_front = "ARRAY<"
+                type_back = ">"
+                for i in range(1, col.array_dimensional):
+                    type_front += "STRUCT<dimension_{} ARRAY<".format(i)
+                    type_back += ">>"
+
+                type = "{}{}{}".format(type_front, col.bigquery_standard_data_type, type_back)
+                not_null = ""
+
+            cols_defs.append("{name} {type}{not_null}".format(
+                name=col_name,
+                type=type,
+                not_null=not_null,
             ))
 
-        return "#standardSQL\nCREATE TABLE `project.{dataset}.{table}`\n(\n  {colmns_define}\n)".format(
+        return textwrap.dedent(
+            """\
+            #standardSQL
+            CREATE TABLE `project.{dataset}.{table}`
+            (
+              {colmns_define}
+            )""").format(
             dataset=dataset,
             table=self.get_name(name_case),
-            colmns_define=",\n  ".join(cols_def),
+            colmns_define=",\n  ".join(cols_defs),
         )
 
 
@@ -411,10 +480,11 @@ class DdlParse(DdlParseBase):
                     + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE)
                     + Group(
                           Word(alphanums+"_")
-                        + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION"))
+                        + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION") ^ CaselessKeyword("VARYING"))
                         + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
                         )("type")
-                    + Optional(Word(alphanums+"_': -"))("constraint")
+                    + Optional(Word("[]"))("array_brackets")
+                    + Optional(Word(alphanums+"_': -."))("constraint")
                 )("column")
             )
         )("columns")
@@ -483,7 +553,8 @@ class DdlParse(DdlParseBase):
                 # add column
                 col = self._table.columns.append(
                     column_name=ret_col["name"],
-                    data_type_array=ret_col["type"])
+                    data_type_array=ret_col["type"],
+                    array_brackets=ret_col['array_brackets'] if "array_brackets" in ret_col else None)
 
                 if "constraint" in ret_col:
                     col.constraint = ret_col["constraint"]
