@@ -76,7 +76,6 @@ for col in table.columns.values():
     col_info.append("not_null =  {}".format(col.not_null))
     col_info.append("PK =  {}".format(col.primary_key))
     col_info.append("unique =  {}".format(col.unique))
-    col_info.append("bq_data_type =  {}".format(col.bigquery_data_type))
     col_info.append("bq_legacy_data_type =  {}".format(col.bigquery_legacy_data_type))
     col_info.append("bq_standard_data_type =  {}".format(col.bigquery_standard_data_type))
     col_info.append("BQ {}".format(col.to_bigquery_field()))
