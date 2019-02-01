@@ -175,7 +175,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
 
         # BigQuery data type = {source_database: [data type, ...], ...}
         BQ_DATA_TYPE_DIC = OrderedDict()
-        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT|CLOB|JSON)")]}
+        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT|CLOB|JSON|UUID)")]}
         BQ_DATA_TYPE_DIC["INTEGER"] = {None: [re.compile(r"INT|SERIAL|YEAR")]}
         BQ_DATA_TYPE_DIC["FLOAT"] = {None: [re.compile(r"(FLOAT|DOUBLE)"), "REAL", "MONEY"]}
         BQ_DATA_TYPE_DIC["DATETIME"] = {
@@ -483,8 +483,8 @@ class DdlParse(DdlParseBase):
                         + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION") ^ CaselessKeyword("VARYING"))
                         + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
                         )("type")
-                    + Optional(Word("[]"))("array_brackets")
-                    + Optional(Word(alphanums+"_': -."))("constraint")
+                    + Optional(Word(r"\[\]"))("array_brackets")
+                    + Optional(Regex(r"DEFAULT\s+[^,]+", re.IGNORECASE) | Word(alphanums+"_': -"))("constraint")
                 )("column")
             )
         )("columns")

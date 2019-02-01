@@ -229,7 +229,8 @@ TEST_DATA = {
               Col_02 char(1) DEFAULT '0'::bpchar,
               Col_03 integer DEFAULT 0,
               Col_04 numeric(10) DEFAULT 0,
-              Col_05 numeric(20,3) DEFAULT 0.0
+              Col_05 numeric(20,3) DEFAULT 0.0,
+              Col_06 character varying[] DEFAULT '{}'::character varying[]
             );
             """,
         "database" : None,
@@ -240,6 +241,7 @@ TEST_DATA = {
             {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_04", "type" : "NUMERIC", "length" : 10, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_05", "type" : "NUMERIC", "length" : 20, "scale" : 3, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_06", "type" : "CHARACTER VARYING", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
@@ -247,6 +249,7 @@ TEST_DATA = {
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_06", "type": "STRING", "mode": "REPEATED"}',
         ],
         "bq_standard_data_type" : [
             "STRING",
@@ -254,6 +257,7 @@ TEST_DATA = {
             "INT64",
             "INT64",
             "FLOAT64",
+            "STRING",
         ],
     },
 
@@ -316,7 +320,8 @@ TEST_DATA = {
               Col_03 integer[], -- one dimensional array
               Col_04 integer[][], -- two dimensional array
               Col_05 integer[][][], -- multiple dimensional array
-              Col_06 character varying[] -- character varying array
+              Col_06 character varying[], -- character varying array
+              Col_07 uuid NOT NULL
             );
             """,
         "database" : None,
@@ -328,6 +333,7 @@ TEST_DATA = {
             {"name" : "Col_04", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_05", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 3, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
             {"name" : "Col_06", "type" : "CHARACTER VARYING", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : ""},
+            {"name" : "Col_07", "type" : "UUID", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL"},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -336,6 +342,7 @@ TEST_DATA = {
             '{"name": "Col_04", "type": "RECORD", "mode": "REPEATED", "fields": [{"name": "dimension_1", "type": "INTEGER", "mode": "REPEATED"}]}',
             '{"name": "Col_05", "type": "RECORD", "mode": "REPEATED", "fields": [{"name": "dimension_1", "type": "RECORD", "mode": "REPEATED", "fields": [{"name": "dimension_2", "type": "INTEGER", "mode": "REPEATED"}]}]}',
             '{"name": "Col_06", "type": "STRING", "mode": "REPEATED"}',
+            '{"name": "Col_07", "type": "STRING", "mode": "REQUIRED"}',
         ],
         "bq_standard_data_type" : [
             "STRING",
@@ -343,6 +350,7 @@ TEST_DATA = {
             "INT64",
             "INT64",
             "INT64",
+            "STRING",
             "STRING",
         ],
     },

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.2
+- Fix FutureWarning of Python 3.7.
+- Add supports PostgreSQL data type.
+    - `UUID`
+- Fix parse `DEFAULT` value.
+    - Add parse regex of `DEFAULT` value.
+
 ## 1.2.1
 - Add supports for Python 3.7.
     - Pass Python 3.7 test.
