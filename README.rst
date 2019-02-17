@@ -2,11 +2,11 @@ DDL Parse
 =========
 
 .. image:: https://img.shields.io/pypi/v/ddlparse.svg
-   :target: https://pypi.python.org/pypi/ddlparse
+   :target: https://pypi.org/project/ddlparse/
    :alt: PyPI version
 
 .. image:: https://img.shields.io/pypi/pyversions/ddlparse.svg
-   :target: https://pypi.python.org/pypi/ddlparse
+   :target: https://pypi.org/project/ddlparse/
    :alt: Python version
 
 .. image:: https://travis-ci.org/shinichi-takii/ddlparse.svg?branch=master
@@ -49,7 +49,7 @@ Requirement
 -----------
 
 1. Python >= 3.4
-2. `pyparsing <http://pyparsing.wikispaces.com/>`__
+2. `pyparsing <https://github.com/pyparsing/pyparsing>`__
 
 Installation
 ------------
@@ -154,11 +154,11 @@ Example
        col_info.append("precision(=length) = {}".format(col.precision))
        col_info.append("scale = {}".format(col.scale))
        col_info.append("constraint = {}".format(col.constraint))
-       col_info.append("not_null =  {}".format(col.not_null))
-       col_info.append("PK =  {}".format(col.primary_key))
-       col_info.append("unique =  {}".format(col.unique))
-       col_info.append("bq_legacy_data_type =  {}".format(col.bigquery_legacy_data_type))
-       col_info.append("bq_standard_data_type =  {}".format(col.bigquery_standard_data_type))
+       col_info.append("not_null = {}".format(col.not_null))
+       col_info.append("PK = {}".format(col.primary_key))
+       col_info.append("unique = {}".format(col.unique))
+       col_info.append("bq_legacy_data_type = {}".format(col.bigquery_legacy_data_type))
+       col_info.append("bq_standard_data_type = {}".format(col.bigquery_standard_data_type))
        col_info.append("BQ {}".format(col.to_bigquery_field()))
        print(" : ".join(col_info))
 
@@ -187,9 +187,9 @@ Links
 -----
 
 -  Repository : https://github.com/shinichi-takii/ddlparse
--  PyPI Package : https://pypi.python.org/pypi/ddlparse
+-  PyPI Package : https://pypi.org/project/ddlparse/
 
 Special Thanks
 --------------
 
--  pyparsing : http://pyparsing.wikispaces.com/
+-  pyparsing : https://github.com/pyparsing/pyparsing

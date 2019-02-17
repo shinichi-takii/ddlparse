@@ -13,6 +13,8 @@ TEST_DATA = {
             """
             CREATE TABLE Sample_Table (
               Col_01 varchar(100) PRIMARY KEY,
+              -- comment
+              -- comment
               Col_02 char(200) NOT NULL UNIQUE,
               Col_03 text UNIQUE,
               Col_04 integer,
@@ -151,7 +153,8 @@ TEST_DATA = {
               Col_04 double,
               Col_05 datetime,
               CONSTRAINT const_01 PRIMARY KEY (Col_01, Col_02),
-              CONSTRAINT \"const_02\" UNIQUE (Col_03, Col_04)
+              CONSTRAINT \"const_02\" UNIQUE (Col_03, Col_04),
+              CONSTRAINT \"const_03\" FOREIGN KEY (Col_04, \"Col_05\") REFERENCES ref_table_01 (\"Col_04\", Col_05)
             );
             """,
         "database" : DdlParse.DATABASE.mysql,
@@ -193,6 +196,7 @@ TEST_DATA = {
               PRIMARY KEY (Col_01, Col_02),
               UNIQUE (Col_03, Col_04),
               NOT NULL (Col_04, Col_05)
+              FOREIGN KEY (Col_04, Col_05) REFERENCES ref_table_01 (Col_04, Col_05)
             );
             """,
         "database" : None,
