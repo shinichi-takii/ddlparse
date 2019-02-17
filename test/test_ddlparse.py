@@ -195,7 +195,7 @@ TEST_DATA = {
               Col_05 datetime,
               PRIMARY KEY (Col_01, Col_02),
               UNIQUE (Col_03, Col_04),
-              NOT NULL (Col_04, Col_05)
+              NOT NULL (Col_04, Col_05),
               FOREIGN KEY (Col_04, Col_05) REFERENCES ref_table_01 (Col_04, Col_05)
             );
             """,
