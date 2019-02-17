@@ -1,7 +1,7 @@
 # DDL Parse
 
-[![PyPI version](https://img.shields.io/pypi/v/ddlparse.svg)](https://pypi.python.org/pypi/ddlparse)
-[![Python version](https://img.shields.io/pypi/pyversions/ddlparse.svg)](https://pypi.python.org/pypi/ddlparse)
+[![PyPI version](https://img.shields.io/pypi/v/ddlparse.svg)](https://pypi.org/project/ddlparse/)
+[![Python version](https://img.shields.io/pypi/pyversions/ddlparse.svg)](https://pypi.org/project/ddlparse/)
 [![Travis CI Build Status](https://travis-ci.org/shinichi-takii/ddlparse.svg?branch=master)](https://travis-ci.org/shinichi-takii/ddlparse)
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/shinichi-takii/ddlparse/badge.svg?branch=master)](https://coveralls.io/github/shinichi-takii/ddlparse?branch=master)
 [![codecov Coverage Status](https://codecov.io/gh/shinichi-takii/ddlparse/branch/master/graph/badge.svg)](https://codecov.io/gh/shinichi-takii/ddlparse)
@@ -22,7 +22,7 @@
 ## Requirement
 
 1. Python >= 3.4
-1. [pyparsing](http://pyparsing.wikispaces.com/)
+1. [pyparsing](https://github.com/pyparsing/pyparsing)
 
 ## Installation
 
@@ -118,11 +118,11 @@ for col in table.columns.values():
     col_info.append("precision(=length) = {}".format(col.precision))
     col_info.append("scale = {}".format(col.scale))
     col_info.append("constraint = {}".format(col.constraint))
-    col_info.append("not_null =  {}".format(col.not_null))
-    col_info.append("PK =  {}".format(col.primary_key))
-    col_info.append("unique =  {}".format(col.unique))
-    col_info.append("bq_legacy_data_type =  {}".format(col.bigquery_legacy_data_type))
-    col_info.append("bq_standard_data_type =  {}".format(col.bigquery_standard_data_type))
+    col_info.append("not_null = {}".format(col.not_null))
+    col_info.append("PK = {}".format(col.primary_key))
+    col_info.append("unique = {}".format(col.unique))
+    col_info.append("bq_legacy_data_type = {}".format(col.bigquery_legacy_data_type))
+    col_info.append("bq_standard_data_type = {}".format(col.bigquery_standard_data_type))
     col_info.append("BQ {}".format(col.to_bigquery_field()))
     print(" : ".join(col_info))
 
@@ -148,8 +148,8 @@ Shinichi Takii <shinichi.takii@gmail.com>
 ## Links
 
 - Repository : https://github.com/shinichi-takii/ddlparse
-- PyPI Package : https://pypi.python.org/pypi/ddlparse
+- PyPI Package : https://pypi.org/project/ddlparse/
 
 ## Special Thanks
 
-- pyparsing : http://pyparsing.wikispaces.com/
+- pyparsing : https://github.com/pyparsing/pyparsing

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+- Fix parse error for MySQL DDL with 'FOREIGN KEY'.
+- Fix not completely parsed with block comments.
+
 ## 1.2.2
 - Fix FutureWarning of Python 3.7.
 - Add supports PostgreSQL data type.

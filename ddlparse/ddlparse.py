@@ -454,8 +454,8 @@ class DdlParse(DdlParseBase):
     """DDL parser"""
 
     _LPAR, _RPAR, _COMMA, _SEMICOLON, _DOT, _DOUBLEQUOTE, _BACKQUOTE, _SPACE = map(Suppress, "(),;.\"` ")
-    _CREATE, _TABLE, _TEMP, _CONSTRAINT, _NOT_NULL, _PRIMARY_KEY, _UNIQUE, _UNIQUE_KEY, _KEY, _CHAR_SEMANTICS, _BYTE_SEMANTICS = \
-        map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, KEY, CHAR, BYTE".replace(", ", ",").split(","))
+    _CREATE, _TABLE, _TEMP, _CONSTRAINT, _NOT_NULL, _PRIMARY_KEY, _UNIQUE, _UNIQUE_KEY, _FOREIGN_KEY, _REFERENCES, _KEY, _CHAR_SEMANTICS, _BYTE_SEMANTICS = \
+        map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, FOREIGN KEY, REFERENCES, KEY, CHAR, BYTE".replace(", ", ",").split(","))
     _SUPPRESS_QUOTE = _BACKQUOTE | _DOUBLEQUOTE
 
     _COMMENT = Suppress("--" + Regex(r".+"))
@@ -465,19 +465,33 @@ class DdlParse(DdlParseBase):
         + _LPAR \
         + delimitedList(
             OneOrMore(
+                _COMMENT
+                |
                 # Ignore Index
                 Suppress(_KEY + Word(alphanums+"_'`() "))
                 |
                 Group(
                     Optional(Suppress(_CONSTRAINT) + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE))
-                    + (_PRIMARY_KEY ^ _UNIQUE ^ _UNIQUE_KEY ^ _NOT_NULL)("type")
-                    + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums+"_"))("name") + Optional(_SUPPRESS_QUOTE)
-                    + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
+                    + (
+                        (
+                            (_PRIMARY_KEY ^ _UNIQUE ^ _UNIQUE_KEY ^ _NOT_NULL)("type")
+                            + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums+"_"))("name") + Optional(_SUPPRESS_QUOTE)
+                            + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
+                        )
+                        |
+                        (
+                            (_FOREIGN_KEY)("type")
+                            + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
+                            + Optional(Suppress(_REFERENCES)
+                                + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("references_table") + Optional(_SUPPRESS_QUOTE)
+                                + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("references_columns") + _RPAR
+                            )
+                        )
+                    )
                 )("constraint")
                 |
                 Group(
-                    Optional(_COMMENT)
-                    + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE)
+                    Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE)
                     + Group(
                           Word(alphanums+"_")
                         + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION") ^ CaselessKeyword("VARYING"))
@@ -486,6 +500,8 @@ class DdlParse(DdlParseBase):
                     + Optional(Word(r"\[\]"))("array_brackets")
                     + Optional(Regex(r"DEFAULT\s+[^,]+", re.IGNORECASE) | Word(alphanums+"_': -"))("constraint")
                 )("column")
+                |
+                _COMMENT
             )
         )("columns")
 
