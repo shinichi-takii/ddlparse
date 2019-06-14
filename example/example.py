@@ -9,8 +9,8 @@ from ddlparse import DdlParse
 
 sample_ddl = """
 CREATE TABLE My_Schema.Sample_Table (
-  Id integer PRIMARY KEY,
-  Name varchar(100) NOT NULL,
+  Id integer PRIMARY KEY COMMENT 'User ID',
+  Name varchar(100) NOT NULL COMMENT 'User name',
   Total bigint NOT NULL,
   Avg decimal(5,1) NOT NULL,
   Created_At date, -- Oracle 'DATE' -> BigQuery 'DATETIME'
@@ -78,6 +78,8 @@ for col in table.columns.values():
     col_info.append("unique = {}".format(col.unique))
     col_info.append("bq_legacy_data_type = {}".format(col.bigquery_legacy_data_type))
     col_info.append("bq_standard_data_type = {}".format(col.bigquery_standard_data_type))
+    col_info.append("comment = '{}'".format(col.comment))
+    col_info.append("description(=comment) = '{}'".format(col.description))
     col_info.append("BQ {}".format(col.to_bigquery_field()))
     print(" : ".join(col_info))
 
