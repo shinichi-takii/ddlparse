@@ -140,6 +140,28 @@ class DdlParseColumn(DdlParseTableColumnBase):
         self._pk = False if self._constraint is None or not re.search("PRIMARY KEY", self._constraint) else True
         self._unique = False if self._constraint is None or not re.search("UNIQUE", self._constraint) else True
 
+        self._comment = None
+        if constraint is not None:
+            matches = re.findall(r"(?:\bCOMMENT\b\s+)(['\"])(.+)\1", constraint, re.IGNORECASE)
+            if len(matches) > 0:
+                self._comment = matches[0][1]
+
+    @property
+    def comment(self):
+        return self._comment
+
+    @comment.setter
+    def comment(self, comment):
+        self._comment = comment
+
+    @property
+    def description(self):
+        return self.comment
+
+    @description.setter
+    def description(self, description):
+        self.comment = description
+
     @property
     def array_dimensional(self):
         """array dimensional number"""
@@ -278,10 +300,12 @@ class DdlParseColumn(DdlParseTableColumnBase):
         col['name'] = col_name
         col['type'] = type
         col['mode'] = mode
+        if self.description is not None:
+            col['description'] = self.description
         if self.array_dimensional > 1:
             col['fields'] = fields['fields']
 
-        return json.dumps(col)
+        return json.dumps(col, ensure_ascii=False)
 
 
 class DdlParseColumnDict(OrderedDict, DdlParseBase):
@@ -431,10 +455,12 @@ class DdlParseTable(DdlParseTableColumnBase):
                 type = "{}{}{}".format(type_front, col.bigquery_standard_data_type, type_back)
                 not_null = ""
 
-            cols_defs.append("{name} {type}{not_null}".format(
+            # cols_defs.append("{name} {type}{not_null}".format(
+            cols_defs.append("{name} {type}{not_null}{description}".format(
                 name=col_name,
                 type=type,
                 not_null=not_null,
+                description=' OPTIONS (description = "{}")'.format(col.description.replace('"', '\\"')) if col.description is not None else "",
             ))
 
         return textwrap.dedent(
@@ -498,7 +524,7 @@ class DdlParse(DdlParseBase):
                         + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
                         )("type")
                     + Optional(Word(r"\[\]"))("array_brackets")
-                    + Optional(Regex(r"DEFAULT\s+[^,]+", re.IGNORECASE) | Word(alphanums+"_': -"))("constraint")
+                    + Optional(Regex(r"(?!--)(\b(COMMENT|DEFAULT)\b\s+[^,]+|([A-Za-z0-9_'\": -]|[^\x01-\x7E])*)", re.IGNORECASE))("constraint")
                 )("column")
                 |
                 _COMMENT
@@ -570,10 +596,8 @@ class DdlParse(DdlParseBase):
                 col = self._table.columns.append(
                     column_name=ret_col["name"],
                     data_type_array=ret_col["type"],
-                    array_brackets=ret_col['array_brackets'] if "array_brackets" in ret_col else None)
-
-                if "constraint" in ret_col:
-                    col.constraint = ret_col["constraint"]
+                    array_brackets=ret_col['array_brackets'] if "array_brackets" in ret_col else None,
+                    constraint=ret_col['constraint'] if "constraint" in ret_col else None)
 
             elif ret_col.getName() == "constraint":
                 # set column constraint
