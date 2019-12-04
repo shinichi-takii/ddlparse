@@ -524,7 +524,7 @@ class DdlParse(DdlParseBase):
                         + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
                         )("type")
                     + Optional(Word(r"\[\]"))("array_brackets")
-                    + Optional(Regex(r"(?!--)(\b(COMMENT|DEFAULT)\b\s+[^,]+|([A-Za-z0-9_'\": -]|[^\x01-\x7E])*)", re.IGNORECASE))("constraint")
+                    + Optional(Regex(r"(?!--)(\b(COMMENT|DEFAULT)\b\s+[^,]+|([A-Za-z0-9_\.'\": -]|[^\x01-\x7E])*)", re.IGNORECASE))("constraint")
                 )("column")
                 |
                 _COMMENT
