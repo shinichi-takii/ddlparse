@@ -152,6 +152,8 @@ TEST_DATA = {
               Col_03 integer,
               Col_04 double,
               Col_05 datetime,
+              Col_06 decimal(2,1) not null default '0.0',
+              Col_07 integer,
               CONSTRAINT const_01 PRIMARY KEY (Col_01, Col_02),
               CONSTRAINT \"const_02\" UNIQUE (Col_03, Col_04),
               CONSTRAINT \"const_03\" FOREIGN KEY (Col_04, \"Col_05\") REFERENCES ref_table_01 (\"Col_04\", Col_05)
@@ -165,6 +167,8 @@ TEST_DATA = {
             {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
             {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
             {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+            {"name" : "Col_06", "type" : "DECIMAL", "length" : 2, "scale" : 1, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL", "description" : None},
+            {"name" : "Col_07", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
         ],
         "bq_field" : [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -172,6 +176,8 @@ TEST_DATA = {
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "NULLABLE"}',
+            '{"name": "Col_06", "type": "FLOAT", "mode": "REQUIRED"}',
+            '{"name": "Col_07", "type": "INTEGER", "mode": "NULLABLE"}',
         ],
         "bq_standard_data_type" : [
             "STRING",
@@ -179,6 +185,8 @@ TEST_DATA = {
             "INT64",
             "FLOAT64",
             "DATETIME",
+            "FLOAT64",
+            "INT64",
         ],
     },
 

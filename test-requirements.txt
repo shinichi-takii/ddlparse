@@ -1,5 +1,6 @@
 pytest>=3.6
 pytest-cov
+tox
 coveralls
 codecov
 codeclimate-test-reporter
