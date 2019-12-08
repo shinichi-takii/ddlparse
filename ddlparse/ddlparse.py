@@ -112,12 +112,12 @@ class DdlParseColumn(DdlParseTableColumnBase):
         if len(data_type_array) < 2:
             return
 
-        matches = re.findall(r"(\d+)\s*,*\s*(\d*)", data_type_array[-1])
+        matches = re.findall(r"([\d\*]+)\s*,*\s*(\d*)", data_type_array[-1])
         if len(matches) > 0:
-            self._length = int(matches[0][0])
+            self._length = matches[0][0] if matches[0][0] == "*" else int(matches[0][0])
             self._scale = None if len(matches[0]) < 2 or matches[0][1] == "" or int(matches[0][1]) == 0 else int(matches[0][1])
 
-        if re.search(r"^\D+", data_type_array[1]):
+        if re.search(r"^[^\d\*]+", data_type_array[1]):
             self._data_type += " {}".format(data_type_array[1])
 
 
@@ -225,15 +225,22 @@ class DdlParseColumn(DdlParseTableColumnBase):
                         return bq_type
 
         if self._data_type in ["NUMERIC", "NUMBER", "DECIMAL"]:
-            if self._scale is not None:
-                return "FLOAT"
+            if self._length is None:
+                if self._source_database in [self.DATABASE.oracle, self.DATABASE.postgresql]:
+                    return "NUMERIC"
+                else:
+                    return "INTEGER"
 
-            if self._data_type == "NUMBER" \
-                and self._source_database == self.DATABASE.oracle \
-                and self._length is None:
-                return "FLOAT"
+            if self._length == "*":
+                return "NUMERIC"
 
-            return "INTEGER"
+            if self._length < 19:
+                if self._scale is None or self._scale == 0:
+                    return "INTEGER"
+                else:
+                    return "FLOAT"
+
+            return "NUMERIC"
 
         raise ValueError("Unknown data type : '{}'".format(self._data_type))
 
@@ -521,7 +528,7 @@ class DdlParse(DdlParseBase):
                     + Group(
                           Word(alphanums+"_")
                         + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION") ^ CaselessKeyword("VARYING"))
-                        + Optional(_LPAR + Regex(r"\d+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
+                        + Optional(_LPAR + Regex(r"[\d\*]+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
                         )("type")
                     + Optional(Word(r"\[\]"))("array_brackets")
                     + Optional(Regex(r"(?!--)(\b(COMMENT|DEFAULT)\b\s+[^,]+|([A-Za-z0-9_\.'\": -]|[^\x01-\x7E])*)", re.IGNORECASE))("constraint")
