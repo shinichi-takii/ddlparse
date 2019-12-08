@@ -5,9 +5,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.4.0] - 2019-12-08
+### Added
+- Add supports to BigQuery `NUMERIC` data type.
+
+#### Data-type Conditions
+
+|BigQuery Data Type|Source Data Type|Precision|Scale|Database|Exapmle Source Data Type|
+|:--|:--|:-:|:-:|:--|:--|
+|**INT64**|(NUMERIC\|NUMBER\|DECIMAL)|< 19|= 0|-|NUMERIC(18)|
+|**FLOAT64**|(NUMERIC\|NUMBER\|DECIMAL)|< 19|> 0|-|NUMERIC(18, 1)|
+|**NUMERIC**|(NUMERIC\|NUMBER\|DECIMAL)|>= 19|-|-|NUMERIC(19)|
+|**NUMERIC**|(NUMERIC\|NUMBER\|DECIMAL)|\*|-|-|NUMBER(\*, 0)|
+|**INT64**|(NUMERIC\|NUMBER\|DECIMAL)|None|-|default|DECIMAL|
+|**NUMERIC**|(NUMERIC\|NUMBER\|DECIMAL)|None|-|`DdlParse.DATABASE.oracle`<br>`DdlParse.DATABASE.postgresql`|NUMBER<br>NUMERIC|
+
+### Fixed
+- Fix parsing failure for include `(*)` format of Oracle `NUMBER` data type.
+
+
 ## [1.3.1] - 2019-12-05
 ### Fixed
 - Fixed parsing failure for columns include dot at default values.
+
 
 ## [1.3.0] - 2019-06-15
 ### Added
@@ -16,10 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `DdlParseColumn.description` property for the `DdlParseColumn.comment` property alias.
 - Add supports column comments in BigQuery DDL.
 
+
 ## [1.2.3] - 2019-02-17
 ### Fixed
 - Fix parse error for MySQL DDL with 'FOREIGN KEY'.
 - Fix not completely parsed with block comments.
+
 
 ## [1.2.2] - 2019-02-02
 ### Added
@@ -31,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix parse `DEFAULT` value.
     - Add parse regex of `DEFAULT` value.
 
+
 ## [1.2.1] - 2019-01-27
 ### Added
 - Add supports for Python 3.7.
@@ -39,8 +62,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `CHARACTER VARYING`
     - `JSON`
     - Array type
+
+### Fixed
 - Fix parse `DEFAULT` value.
     - Add decimal point to `DEFAULT` parse character.
+
 
 ## [1.2.0] - 2019-01-02
 ### Added
@@ -52,11 +78,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `DdlParseColumn.bigquery_standard_data_type` property.
     - Get BigQuery Standard SQL data property.
 
+
 ## [1.1.3] - 2018-08-02
 ### Added
 - Add support inline comment.
 - Add support constraint name with quotes.
 - Add support Oracle Length Semantics for Character Datatypes.
+
 
 ## [1.1.2] - 2018-03-25
 ### Added
@@ -67,9 +95,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Miner fix.
 
+
 ## [1.1.1] - 2018-03-25
 ### Fixed
 - Fix Postgres/Redshift parse of "::" syntax in field attribute.
+
 
 ## [1.1.0] - 2018-01-14
 ### Added
@@ -81,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Oracle 'DATE' -> BigQuery 'DATETIME'
     - Oracle 'NUMBER' -> BigQuery 'INTEGER' or 'FLOAT'
 
+
 ## [1.0.2] - 2018-01-09
 ### Fixed
 - Miner enhancement.
@@ -88,14 +119,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `example.py` : Modified comment.
     - `README.md` : Miner fix.
 
+
 ## [1.0.1] - 2018-01-07
 ### Fixed
 - Miner enhancement.
+
 
 ## [1.0.0]
 ### Added
 - Initial released.
 
+
+[1.4.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/shinichi-takii/ddlparse/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.2.3...v1.3.0
 [1.2.3]: https://github.com/shinichi-takii/ddlparse/compare/v1.2.2...v1.2.3
