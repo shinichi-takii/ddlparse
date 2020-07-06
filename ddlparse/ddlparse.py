@@ -493,6 +493,43 @@ class DdlParse(DdlParseBase):
 
     _COMMENT = Suppress("--" + Regex(r".+"))
 
+    _COLUMN_CONSTRAINT_BASE = r"""
+    (?!--)
+    (
+        (
+            \s*\b(?:NOT\s+)NULL?\b
+        )?
+        (
+            \s*\bAUTO_INCREMENT\b
+        )?(
+            \s*\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b
+        )?
+        (
+            \s*\bDEFAULT\b\s+(
+                ([A-Za-z0-9_\.\'\" -]|[^\x01-\x7E])*\:\:[A-Za-z0-9\[\]]+
+                |
+                \'(\\\'|[^\']|,)+\'
+                |
+                \"(\\\"|[^\"]|,)+\"
+                |
+                [^,]+
+            )
+        )?
+        (
+            \s*\bCOMMENT\b\s+(
+                \'(\\\'|[^\']|,)+\'
+                |
+                \"(\\\"|[^\"]|,)+\"
+                |
+                [^,]+
+            )
+        )?
+    )
+    """
+
+    _COLUMN_CONSTRAINT = re.sub(r"(^\s+|\n)", r"", _COLUMN_CONSTRAINT_BASE, flags=re.MULTILINE)
+
+
     _CREATE_TABLE_STATEMENT = Suppress(_CREATE) + Optional(_TEMP)("temp") + Suppress(_TABLE) + Optional(Suppress(CaselessKeyword("IF NOT EXISTS"))) \
         + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums+"_")("schema") + Optional(_SUPPRESS_QUOTE) + _DOT + Optional(_SUPPRESS_QUOTE)) + Word(alphanums+"_<>")("table") + Optional(_SUPPRESS_QUOTE) \
         + _LPAR \
@@ -531,7 +568,7 @@ class DdlParse(DdlParseBase):
                         + Optional(_LPAR + Regex(r"[\d\*]+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
                         )("type")
                     + Optional(Word(r"\[\]"))("array_brackets")
-                    + Optional(Regex(r"(?!--)(\b(COMMENT|DEFAULT)\b\s+[^,]+|([A-Za-z0-9_\.'\": -]|[^\x01-\x7E])*)", re.IGNORECASE))("constraint")
+                    + Optional(Regex(_COLUMN_CONSTRAINT, re.IGNORECASE))("constraint")
                 )("column")
                 |
                 _COMMENT
