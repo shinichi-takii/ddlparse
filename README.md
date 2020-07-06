@@ -21,7 +21,7 @@
 
 ## Requirement
 
-1. Python >= 3.4
+1. Python >= 3.5
 1. [pyparsing](https://github.com/pyparsing/pyparsing)
 
 ## Installation
