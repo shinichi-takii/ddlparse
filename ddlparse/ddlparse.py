@@ -93,6 +93,14 @@ class DdlParseColumn(DdlParseTableColumnBase):
         return self._data_type
 
     @property
+    def is_unsigned(self):
+        return self._numeric_is_unsigned
+
+    @property
+    def is_zerofill(self):
+        return self._numeric_is_zerofill
+
+    @property
     def length(self):
         return self._length
 
@@ -105,20 +113,17 @@ class DdlParseColumn(DdlParseTableColumnBase):
         return self._scale
 
     def _set_data_type(self, data_type_array):
-        self._data_type = data_type_array[0].upper()
+        self._data_type = ' '.join(data_type_array["type_name"]).upper()
+        self._numeric_is_unsigned = True if "unsigned" in data_type_array else False
+        self._numeric_is_zerofill = True if "zerofill" in data_type_array else False
         self._length = None
         self._scale = None
 
-        if len(data_type_array) < 2:
-            return
-
-        matches = re.findall(r"([\d\*]+)\s*,*\s*(\d*)", data_type_array[-1])
-        if len(matches) > 0:
-            self._length = matches[0][0] if matches[0][0] == "*" else int(matches[0][0])
-            self._scale = None if len(matches[0]) < 2 or matches[0][1] == "" or int(matches[0][1]) == 0 else int(matches[0][1])
-
-        if re.search(r"^[^\d\*]+", data_type_array[1]):
-            self._data_type += " {}".format(data_type_array[1])
+        if "length" in data_type_array:
+            matches = re.findall(r"([\d\*]+)\s*,*\s*(\d*)", data_type_array["length"])
+            if len(matches) > 0:
+                self._length = matches[0][0] if matches[0][0] == "*" else int(matches[0][0])
+                self._scale = None if len(matches[0]) < 2 or matches[0][1] == "" or int(matches[0][1]) == 0 else int(matches[0][1])
 
 
     @property
@@ -224,7 +229,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
                             or (self._source_database is not None and source_db is None)):
                         return bq_type
 
-        if self._data_type in ["NUMERIC", "NUMBER", "DECIMAL"]:
+        if self._data_type in ["NUMERIC", "NUMBER", "DECIMAL", "DEC", "FIXED"]:
             if self._length is None:
                 if self._source_database in [self.DATABASE.oracle, self.DATABASE.postgresql]:
                     return "NUMERIC"
@@ -489,6 +494,8 @@ class DdlParse(DdlParseBase):
     _LPAR, _RPAR, _COMMA, _SEMICOLON, _DOT, _DOUBLEQUOTE, _BACKQUOTE, _SPACE = map(Suppress, "(),;.\"` ")
     _CREATE, _TABLE, _TEMP, _CONSTRAINT, _NOT_NULL, _PRIMARY_KEY, _UNIQUE, _UNIQUE_KEY, _FOREIGN_KEY, _REFERENCES, _KEY, _CHAR_SEMANTICS, _BYTE_SEMANTICS = \
         map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, FOREIGN KEY, REFERENCES, KEY, CHAR, BYTE".replace(", ", ",").split(","))
+    _TYPE_UNSIGNED, _TYPE_ZEROFILL = \
+        map(CaselessKeyword, "UNSIGNED, ZEROFILL".replace(", ", ",").split(","))
     _SUPPRESS_QUOTE = _BACKQUOTE | _DOUBLEQUOTE
 
     _COMMENT = Suppress("--" + Regex(r".+"))
@@ -531,42 +538,46 @@ class DdlParse(DdlParseBase):
 
 
     _CREATE_TABLE_STATEMENT = Suppress(_CREATE) + Optional(_TEMP)("temp") + Suppress(_TABLE) + Optional(Suppress(CaselessKeyword("IF NOT EXISTS"))) \
-        + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums+"_")("schema") + Optional(_SUPPRESS_QUOTE) + _DOT + Optional(_SUPPRESS_QUOTE)) + Word(alphanums+"_<>")("table") + Optional(_SUPPRESS_QUOTE) \
+        + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums + "_")("schema") + Optional(_SUPPRESS_QUOTE) + _DOT + Optional(_SUPPRESS_QUOTE)) + Word(alphanums + "_<>")("table") + Optional(_SUPPRESS_QUOTE) \
         + _LPAR \
         + delimitedList(
             OneOrMore(
                 _COMMENT
                 |
                 # Ignore Index
-                Suppress(_KEY + Word(alphanums+"_'`() "))
+                Suppress(_KEY + Word(alphanums + "_'`() "))
                 |
                 Group(
-                    Optional(Suppress(_CONSTRAINT) + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE))
+                    Optional(Suppress(_CONSTRAINT) + Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_")("name") + Optional(_SUPPRESS_QUOTE))
                     + (
                         (
                             (_PRIMARY_KEY ^ _UNIQUE ^ _UNIQUE_KEY ^ _NOT_NULL)("type")
-                            + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums+"_"))("name") + Optional(_SUPPRESS_QUOTE)
-                            + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
+                            + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums + "_"))("name") + Optional(_SUPPRESS_QUOTE)
+                            + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
                         )
                         |
                         (
                             (_FOREIGN_KEY)("type")
-                            + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
+                            + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_") + Optional(_SUPPRESS_QUOTE)))("constraint_columns") + _RPAR
                             + Optional(Suppress(_REFERENCES)
-                                + Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("references_table") + Optional(_SUPPRESS_QUOTE)
-                                + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_") + Optional(_SUPPRESS_QUOTE)))("references_columns") + _RPAR
+                                + Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_")("references_table") + Optional(_SUPPRESS_QUOTE)
+                                + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_") + Optional(_SUPPRESS_QUOTE)))("references_columns") + _RPAR
                             )
                         )
                     )
                 )("constraint")
                 |
                 Group(
-                    Optional(_SUPPRESS_QUOTE) + Word(alphanums+"_")("name") + Optional(_SUPPRESS_QUOTE)
+                    Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_")("name") + Optional(_SUPPRESS_QUOTE)
                     + Group(
-                          Word(alphanums+"_")
-                        + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION") ^ CaselessKeyword("VARYING"))
-                        + Optional(_LPAR + Regex(r"[\d\*]+\s*,*\s*\d*") + Optional(Suppress(_CHAR_SEMANTICS | _BYTE_SEMANTICS)) + _RPAR)
-                        )("type")
+                        Group(
+                            Word(alphanums + "_")
+                            + Optional(CaselessKeyword("WITHOUT TIME ZONE") ^ CaselessKeyword("WITH TIME ZONE") ^ CaselessKeyword("PRECISION") ^ CaselessKeyword("VARYING"))
+                        )("type_name")
+                        + Optional(_LPAR + Regex(r"[\d\*]+\s*,*\s*\d*")("length") + Optional(_CHAR_SEMANTICS | _BYTE_SEMANTICS)("semantics") + _RPAR)
+                        + Optional(_TYPE_UNSIGNED)("unsigned")
+                        + Optional(_TYPE_ZEROFILL)("zerofill")
+                    )("type")
                     + Optional(Word(r"\[\]"))("array_brackets")
                     + Optional(Regex(_COLUMN_CONSTRAINT, re.IGNORECASE))("constraint")
                 )("column")
