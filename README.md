@@ -50,7 +50,9 @@ $ pip install ddlparse --upgrade
 ### Example
 
 ```python
-from ddlparse.ddlparse import DdlParse
+import json
+
+from ddlparse import DdlParse
 
 sample_ddl = """
 CREATE TABLE My_Schema.Sample_Table (
@@ -58,6 +60,8 @@ CREATE TABLE My_Schema.Sample_Table (
   Name varchar(100) NOT NULL COMMENT 'User name',
   Total bigint NOT NULL,
   Avg decimal(5,1) NOT NULL,
+  Point int(10) unsigned,
+  Zerofill_Id integer unsigned zerofill NOT NULL,
   Created_At date, -- Oracle 'DATE' -> BigQuery 'DATETIME'
   UNIQUE (NAME)
 );
@@ -111,22 +115,24 @@ print(table.to_bigquery_fields(DdlParse.NAME_CASE.upper))
 
 print("* COLUMN *")
 for col in table.columns.values():
-    col_info = []
-    col_info.append("name = {}".format(col.name))
-    col_info.append("data_type = {}".format(col.data_type))
-    col_info.append("length = {}".format(col.length))
-    col_info.append("precision(=length) = {}".format(col.precision))
-    col_info.append("scale = {}".format(col.scale))
-    col_info.append("constraint = {}".format(col.constraint))
-    col_info.append("not_null = {}".format(col.not_null))
-    col_info.append("PK = {}".format(col.primary_key))
-    col_info.append("unique = {}".format(col.unique))
-    col_info.append("bq_legacy_data_type = {}".format(col.bigquery_legacy_data_type))
-    col_info.append("bq_standard_data_type = {}".format(col.bigquery_standard_data_type))
-    col_info.append("comment = '{}'".format(col.comment))
-    col_info.append("description(=comment) = '{}'".format(col.description))
-    col_info.append("BQ {}".format(col.to_bigquery_field()))
-    print(" : ".join(col_info))
+    col_info = {}
+    col_info["name"] = col.name
+    col_info["data_type"] = col.data_type
+    col_info["length"] = col.length
+    col_info["precision(=length)"] = col.precision
+    col_info["scale"] = col.scale
+    col_info["is_unsigned"] = col.is_unsigned
+    col_info["is_zerofill"] = col.is_zerofill
+    col_info["constraint"] = col.constraint
+    col_info["not_null"] = col.not_null
+    col_info["PK"] = col.primary_key
+    col_info["unique"] = col.unique
+    col_info["bq_legacy_data_type"] = col.bigquery_legacy_data_type
+    col_info["bq_standard_data_type"] = col.bigquery_standard_data_type
+    col_info["comment"] = col.comment
+    col_info["description(=comment)"] = col.description
+    col_info["bigquery_field"] = json.loads(col.to_bigquery_field())
+    print(json.dumps(col_info, indent=2, ensure_ascii=False))
 
 print("* DDL (CREATE TABLE) statements *")
 print(table.to_bigquery_ddl())

@@ -7,9 +7,9 @@ from ddlparse.ddlparse import DdlParse
 
 
 TEST_DATA = {
-    "basic" :
+    "basic":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE Sample_Table (
               Col_01 varchar(100) PRIMARY KEY,
@@ -66,61 +66,61 @@ TEST_DATA = {
               Col_50 decimal
             );
             """,
-        "database" : None,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : True, "constraint" : "NOT NULL UNIQUE", "description" : None},
-            {"name" : "Col_03", "type" : "TEXT", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_04", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_05", "type" : "BIGINT", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_06", "type" : "SERIAL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_07", "type" : "YEAR", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_08", "type" : "FLOAT", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_09", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_10", "type" : "DOUBLE PRECISION", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_11", "type" : "REAL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_12", "type" : "MONEY", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_13", "type" : "DATE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_14", "type" : "TIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_15", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_16", "type" : "TIMESTAMP", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_17", "type" : "TIMESTAMP WITHOUT TIME ZONE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_18", "type" : "TIMESTAMPTZ", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_19", "type" : "TIMESTAMP WITH TIME ZONE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_20", "type" : "BOOL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_21", "type" : "NUMERIC", "length" : 18, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_22", "type" : "NUMBER", "length" : 18, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_23", "type" : "DECIMAL", "length" : 18, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_24", "type" : "NUMERIC", "length" : 18, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_25", "type" : "NUMBER", "length" : 18, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_26", "type" : "DECIMAL", "length" : 18, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_27", "type" : "NUMERIC", "length" : 18, "scale" : 1, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_28", "type" : "NUMBER", "length" : 18, "scale" : 2, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_29", "type" : "DECIMAL", "length" : 18, "scale" : 3, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_30", "type" : "NUMERIC", "length" : 19, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_31", "type" : "NUMBER", "length" : 19, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_32", "type" : "DECIMAL", "length" : 19, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_33", "type" : "NUMERIC", "length" : 19, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_34", "type" : "NUMBER", "length" : 19, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_35", "type" : "DECIMAL", "length" : 19, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_36", "type" : "NUMERIC", "length" : 19, "scale" : 1, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_37", "type" : "NUMBER", "length" : 19, "scale" : 2, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_38", "type" : "DECIMAL", "length" : 19, "scale" : 3, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_39", "type" : "NUMERIC", "length" : "*", "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_40", "type" : "NUMBER", "length" : "*", "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_41", "type" : "DECIMAL", "length" : "*", "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_42", "type" : "NUMERIC", "length" : "*", "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_43", "type" : "NUMBER", "length" : "*", "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_44", "type" : "DECIMAL", "length" : "*", "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_45", "type" : "NUMERIC", "length" : "*", "scale" : 1, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_46", "type" : "NUMBER", "length" : "*", "scale" : 2, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_47", "type" : "DECIMAL", "length" : "*", "scale" : 3, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_48", "type" : "NUMERIC", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_49", "type" : "NUMBER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_50", "type" : "DECIMAL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": None,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": True, "constraint": "NOT NULL UNIQUE", "description": None},
+            {"name": "Col_03", "type": "TEXT", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_04", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_05", "type": "BIGINT", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_06", "type": "SERIAL", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_07", "type": "YEAR", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_08", "type": "FLOAT", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_09", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_10", "type": "DOUBLE PRECISION", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_11", "type": "REAL", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_12", "type": "MONEY", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_13", "type": "DATE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_14", "type": "TIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_15", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_16", "type": "TIMESTAMP", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_17", "type": "TIMESTAMP WITHOUT TIME ZONE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_18", "type": "TIMESTAMPTZ", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_19", "type": "TIMESTAMP WITH TIME ZONE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_20", "type": "BOOL", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_21", "type": "NUMERIC", "length": 18, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_22", "type": "NUMBER", "length": 18, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_23", "type": "DECIMAL", "length": 18, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_24", "type": "NUMERIC", "length": 18, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_25", "type": "NUMBER", "length": 18, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_26", "type": "DECIMAL", "length": 18, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_27", "type": "NUMERIC", "length": 18, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_28", "type": "NUMBER", "length": 18, "scale": 2, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_29", "type": "DECIMAL", "length": 18, "scale": 3, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_30", "type": "NUMERIC", "length": 19, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_31", "type": "NUMBER", "length": 19, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_32", "type": "DECIMAL", "length": 19, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_33", "type": "NUMERIC", "length": 19, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_34", "type": "NUMBER", "length": 19, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_35", "type": "DECIMAL", "length": 19, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_36", "type": "NUMERIC", "length": 19, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_37", "type": "NUMBER", "length": 19, "scale": 2, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_38", "type": "DECIMAL", "length": 19, "scale": 3, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_39", "type": "NUMERIC", "length": "*", "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_40", "type": "NUMBER", "length": "*", "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_41", "type": "DECIMAL", "length": "*", "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_42", "type": "NUMERIC", "length": "*", "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_43", "type": "NUMBER", "length": "*", "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_44", "type": "DECIMAL", "length": "*", "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_45", "type": "NUMERIC", "length": "*", "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_46", "type": "NUMBER", "length": "*", "scale": 2, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_47", "type": "DECIMAL", "length": "*", "scale": 3, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_48", "type": "NUMERIC", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_49", "type": "NUMBER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_50", "type": "DECIMAL", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "STRING", "mode": "NULLABLE"}',
@@ -172,7 +172,7 @@ TEST_DATA = {
             '{"name": "Col_49", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_50", "type": "INTEGER", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "STRING",
@@ -226,9 +226,9 @@ TEST_DATA = {
         ],
     },
 
-    "constraint_mysql" :
+    "constraint_mysql":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE Sample_Table (
               Col_01 varchar(100),
@@ -243,18 +243,18 @@ TEST_DATA = {
               CONSTRAINT \"const_03\" FOREIGN KEY (Col_04, \"Col_05\") REFERENCES ref_table_01 (\"Col_04\", Col_05)
             );
             """,
-        "database" : DdlParse.DATABASE.mysql,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_06", "type" : "DECIMAL", "length" : 2, "scale" : 1, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL", "description" : None},
-            {"name" : "Col_07", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": DdlParse.DATABASE.mysql,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_06", "type": "DECIMAL", "length": 2, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_07", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
@@ -263,7 +263,7 @@ TEST_DATA = {
             '{"name": "Col_06", "type": "FLOAT", "mode": "REQUIRED"}',
             '{"name": "Col_07", "type": "INTEGER", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "INT64",
@@ -275,9 +275,9 @@ TEST_DATA = {
     },
 
 
-    "constraint_postgres_oracle_redshift" :
+    "constraint_postgres_oracle_redshift":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE Sample_Table (
               Col_01 varchar(100),
@@ -291,23 +291,23 @@ TEST_DATA = {
               FOREIGN KEY (Col_04, Col_05) REFERENCES ref_table_01 (Col_04, Col_05)
             );
             """,
-        "database" : None,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : True, "constraint" : "NOT NULL UNIQUE", "description" : None},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL", "description" : None},
+        "database": None,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": True, "constraint": "NOT NULL UNIQUE", "description": None},
+            {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "FLOAT", "mode": "REQUIRED"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "REQUIRED"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "INT64",
@@ -316,9 +316,9 @@ TEST_DATA = {
         ],
     },
 
-    "default_postgres_redshift" :
+    "default_postgres_redshift":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE Sample_Table (
               Col_01 char(1) DEFAULT '0'::bpchar,
@@ -330,18 +330,18 @@ TEST_DATA = {
               Col_07 character varying[] DEFAULT '{}'::character varying[]
             );
             """,
-        "database" : None,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "CHAR", "length" : 1, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 1, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_04", "type" : "NUMERIC", "length" : 10, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_05", "type" : "NUMERIC", "length" : 20, "scale" : 3, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_06", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_07", "type" : "CHARACTER VARYING", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": None,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_02", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_04", "type": "NUMERIC", "length": 10, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_05", "type": "NUMERIC", "length": 20, "scale": 3, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_06", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_07", "type": "CHARACTER VARYING", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_02", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
@@ -350,7 +350,7 @@ TEST_DATA = {
             '{"name": "Col_06", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_07", "type": "STRING", "mode": "REPEATED"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "INT64",
@@ -361,9 +361,9 @@ TEST_DATA = {
         ],
     },
 
-    "datatype_oracle" :
+    "datatype_oracle":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE Sample_Table (
               Col_01 date,
@@ -376,19 +376,19 @@ TEST_DATA = {
               Col_08 nclob
             );
             """,
-        "database" : DdlParse.DATABASE.oracle,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "DATE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_02", "type" : "NUMBER", "length" : 1, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_03", "type" : "NUMBER", "length" : 1, "scale" : 2, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_04", "type" : "NUMBER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_05", "type" : "VARCHAR2", "length" : 3, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_06", "type" : "VARCHAR2", "length" : 4, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_07", "type" : "CLOB", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_08", "type" : "NCLOB", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": DdlParse.DATABASE.oracle,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "DATE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_02", "type": "NUMBER", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_03", "type": "NUMBER", "length": 1, "scale": 2, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_04", "type": "NUMBER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_05", "type": "VARCHAR2", "length": 3, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_06", "type": "VARCHAR2", "length": 4, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_07", "type": "CLOB", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_08", "type": "NCLOB", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "DATETIME", "mode": "NULLABLE"}',
             '{"name": "Col_02", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_03", "type": "FLOAT", "mode": "NULLABLE"}',
@@ -398,7 +398,7 @@ TEST_DATA = {
             '{"name": "Col_07", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_08", "type": "STRING", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "DATETIME",
             "INT64",
             "FLOAT64",
@@ -410,9 +410,9 @@ TEST_DATA = {
         ],
     },
 
-    "datatype_postgres" :
+    "datatype_postgres":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE Sample_Table (
               Col_01 character varying(100) PRIMARY KEY,
@@ -426,20 +426,20 @@ TEST_DATA = {
               Col_09 decimal
             );
             """,
-        "database" : DdlParse.DATABASE.postgresql,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "CHARACTER VARYING", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_02", "type" : "JSON", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL", "description" : None},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_04", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_05", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 3, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_06", "type" : "CHARACTER VARYING", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_07", "type" : "UUID", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL", "description" : None},
-            {"name" : "Col_08", "type" : "NUMERIC", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
-            {"name" : "Col_09", "type" : "DECIMAL", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": DdlParse.DATABASE.postgresql,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "CHARACTER VARYING", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_02", "type": "JSON", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_04", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 2, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_05", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 3, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_06", "type": "CHARACTER VARYING", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_07", "type": "UUID", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_08", "type": "NUMERIC", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_09", "type": "DECIMAL", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "REPEATED"}',
@@ -450,7 +450,7 @@ TEST_DATA = {
             '{"name": "Col_08", "type": "NUMERIC", "mode": "NULLABLE"}',
             '{"name": "Col_09", "type": "NUMERIC", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "INT64",
@@ -463,9 +463,278 @@ TEST_DATA = {
         ],
     },
 
-    "name_backquote" :
+    "datatype_mysql":
     {
-        "ddl" :
+        "ddl":
+            """
+            CREATE TABLE Sample_Table (
+              Col_101 TINYINT(11) UNSIGNED ZEROFILL,
+              Col_102 SMALLINT(12) UNSIGNED ZEROFILL,
+              Col_103 MEDIUMINT(13) UNSIGNED ZEROFILL,
+              Col_104 INT(14) UNSIGNED ZEROFILL,
+              Col_105 INTEGER(15) UNSIGNED ZEROFILL,
+              Col_106 BIGINT(16) UNSIGNED ZEROFILL,
+              Col_107 DECIMAL(17, 1) UNSIGNED ZEROFILL,
+              Col_108 DEC(18, 2) UNSIGNED ZEROFILL,
+              Col_109 NUMERIC(19, 3) UNSIGNED ZEROFILL,
+              Col_110 FIXED(20, 4) UNSIGNED ZEROFILL,
+              Col_111 FLOAT(21, 5) UNSIGNED ZEROFILL,
+              Col_112 DOUBLE(22, 6) UNSIGNED ZEROFILL,
+              Col_113 DOUBLE PRECISION(23, 7) UNSIGNED ZEROFILL,
+              Col_114 REAL(24, 8) UNSIGNED ZEROFILL,
+              Col_115 FLOAT(25) UNSIGNED ZEROFILL,
+
+              Col_201 TINYINT(11) UNSIGNED,
+              Col_202 SMALLINT(12) UNSIGNED,
+              Col_203 MEDIUMINT(13) UNSIGNED,
+              Col_204 INT(14) UNSIGNED,
+              Col_205 INTEGER(15) UNSIGNED,
+              Col_206 BIGINT(16) UNSIGNED,
+              Col_207 DECIMAL(17, 1) UNSIGNED,
+              Col_208 DEC(18, 2) UNSIGNED,
+              Col_209 NUMERIC(19, 3) UNSIGNED,
+              Col_210 FIXED(20, 4) UNSIGNED,
+              Col_211 FLOAT(21, 5) UNSIGNED,
+              Col_212 DOUBLE(22, 6) UNSIGNED,
+              Col_213 DOUBLE PRECISION(23, 7) UNSIGNED,
+              Col_214 REAL(24, 8) UNSIGNED,
+              Col_215 FLOAT(25) UNSIGNED,
+
+              Col_301 TINYINT(11) ZEROFILL,
+              Col_302 SMALLINT(12) ZEROFILL,
+              Col_303 MEDIUMINT(13) ZEROFILL,
+              Col_304 INT(14) ZEROFILL,
+              Col_305 INTEGER(15) ZEROFILL,
+              Col_306 BIGINT(16) ZEROFILL,
+              Col_307 DECIMAL(17, 1) ZEROFILL,
+              Col_308 DEC(18, 2) ZEROFILL,
+              Col_309 NUMERIC(19, 3) ZEROFILL,
+              Col_310 FIXED(20, 4) ZEROFILL,
+              Col_311 FLOAT(21, 5) ZEROFILL,
+              Col_312 DOUBLE(22, 6) ZEROFILL,
+              Col_313 DOUBLE PRECISION(23, 7) ZEROFILL,
+              Col_314 REAL(24, 8) ZEROFILL,
+              Col_315 FLOAT(25) ZEROFILL,
+
+              Col_401 TINYINT(11) UNSIGNED ZEROFILL NOT NULL,
+              Col_402 SMALLINT(12) UNSIGNED ZEROFILL NOT NULL,
+              Col_403 MEDIUMINT(13) UNSIGNED ZEROFILL NOT NULL,
+              Col_404 INT(14) UNSIGNED ZEROFILL NOT NULL,
+              Col_405 INTEGER(15) UNSIGNED ZEROFILL NOT NULL,
+              Col_406 BIGINT(16) UNSIGNED ZEROFILL NOT NULL,
+              Col_407 DECIMAL(17, 1) UNSIGNED ZEROFILL NOT NULL,
+              Col_408 DEC(18, 2) UNSIGNED ZEROFILL NOT NULL,
+              Col_409 NUMERIC(19, 3) UNSIGNED ZEROFILL NOT NULL,
+              Col_410 FIXED(20, 4) UNSIGNED ZEROFILL NOT NULL,
+              Col_411 FLOAT(21, 5) UNSIGNED ZEROFILL NOT NULL,
+              Col_412 DOUBLE(22, 6) UNSIGNED ZEROFILL NOT NULL,
+              Col_413 DOUBLE PRECISION(23, 7) UNSIGNED ZEROFILL NOT NULL,
+              Col_414 REAL(24, 8) UNSIGNED ZEROFILL NOT NULL,
+              Col_415 FLOAT(25) UNSIGNED ZEROFILL NOT NULL
+            );
+            """,
+        "database": DdlParse.DATABASE.mysql,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_101", "type": "TINYINT", "length": 11, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_102", "type": "SMALLINT", "length": 12, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_103", "type": "MEDIUMINT", "length": 13, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_104", "type": "INT", "length": 14, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_105", "type": "INTEGER", "length": 15, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_106", "type": "BIGINT", "length": 16, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_107", "type": "DECIMAL", "length": 17, "scale": 1, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_108", "type": "DEC", "length": 18, "scale": 2, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_109", "type": "NUMERIC", "length": 19, "scale": 3, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_110", "type": "FIXED", "length": 20, "scale": 4, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_111", "type": "FLOAT", "length": 21, "scale": 5, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_112", "type": "DOUBLE", "length": 22, "scale": 6, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_113", "type": "DOUBLE PRECISION", "length": 23, "scale": 7, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_114", "type": "REAL", "length": 24, "scale": 8, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_115", "type": "FLOAT", "length": 25, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+
+            {"name": "Col_201", "type": "TINYINT", "length": 11, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_202", "type": "SMALLINT", "length": 12, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_203", "type": "MEDIUMINT", "length": 13, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_204", "type": "INT", "length": 14, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_205", "type": "INTEGER", "length": 15, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_206", "type": "BIGINT", "length": 16, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_207", "type": "DECIMAL", "length": 17, "scale": 1, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_208", "type": "DEC", "length": 18, "scale": 2, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_209", "type": "NUMERIC", "length": 19, "scale": 3, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_210", "type": "FIXED", "length": 20, "scale": 4, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_211", "type": "FLOAT", "length": 21, "scale": 5, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_212", "type": "DOUBLE", "length": 22, "scale": 6, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_213", "type": "DOUBLE PRECISION", "length": 23, "scale": 7, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_214", "type": "REAL", "length": 24, "scale": 8, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_215", "type": "FLOAT", "length": 25, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+
+            {"name": "Col_301", "type": "TINYINT", "length": 11, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_302", "type": "SMALLINT", "length": 12, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_303", "type": "MEDIUMINT", "length": 13, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_304", "type": "INT", "length": 14, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_305", "type": "INTEGER", "length": 15, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_306", "type": "BIGINT", "length": 16, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_307", "type": "DECIMAL", "length": 17, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_308", "type": "DEC", "length": 18, "scale": 2, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_309", "type": "NUMERIC", "length": 19, "scale": 3, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_310", "type": "FIXED", "length": 20, "scale": 4, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_311", "type": "FLOAT", "length": 21, "scale": 5, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_312", "type": "DOUBLE", "length": 22, "scale": 6, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_313", "type": "DOUBLE PRECISION", "length": 23, "scale": 7, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_314", "type": "REAL", "length": 24, "scale": 8, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_315", "type": "FLOAT", "length": 25, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": True, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+
+            {"name": "Col_401", "type": "TINYINT", "length": 11, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_402", "type": "SMALLINT", "length": 12, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_403", "type": "MEDIUMINT", "length": 13, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_404", "type": "INT", "length": 14, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_405", "type": "INTEGER", "length": 15, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_406", "type": "BIGINT", "length": 16, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_407", "type": "DECIMAL", "length": 17, "scale": 1, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_408", "type": "DEC", "length": 18, "scale": 2, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_409", "type": "NUMERIC", "length": 19, "scale": 3, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_410", "type": "FIXED", "length": 20, "scale": 4, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_411", "type": "FLOAT", "length": 21, "scale": 5, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_412", "type": "DOUBLE", "length": 22, "scale": 6, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_413", "type": "DOUBLE PRECISION", "length": 23, "scale": 7, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_414", "type": "REAL", "length": 24, "scale": 8, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_415", "type": "FLOAT", "length": 25, "scale": None, "array_dimensional": 0, "is_unsigned": True, "is_zerofill": True, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+        ],
+        "bq_field": [
+            '{"name": "Col_101", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_102", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_103", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_104", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_105", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_106", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_107", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_108", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_109", "type": "NUMERIC", "mode": "NULLABLE"}',
+            '{"name": "Col_110", "type": "NUMERIC", "mode": "NULLABLE"}',
+            '{"name": "Col_111", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_112", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_113", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_114", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_115", "type": "FLOAT", "mode": "NULLABLE"}',
+
+            '{"name": "Col_201", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_202", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_203", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_204", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_205", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_206", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_207", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_208", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_209", "type": "NUMERIC", "mode": "NULLABLE"}',
+            '{"name": "Col_210", "type": "NUMERIC", "mode": "NULLABLE"}',
+            '{"name": "Col_211", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_212", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_213", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_214", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_215", "type": "FLOAT", "mode": "NULLABLE"}',
+
+            '{"name": "Col_301", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_302", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_303", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_304", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_305", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_306", "type": "INTEGER", "mode": "NULLABLE"}',
+            '{"name": "Col_307", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_308", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_309", "type": "NUMERIC", "mode": "NULLABLE"}',
+            '{"name": "Col_310", "type": "NUMERIC", "mode": "NULLABLE"}',
+            '{"name": "Col_311", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_312", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_313", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_314", "type": "FLOAT", "mode": "NULLABLE"}',
+            '{"name": "Col_315", "type": "FLOAT", "mode": "NULLABLE"}',
+
+            '{"name": "Col_401", "type": "INTEGER", "mode": "REQUIRED"}',
+            '{"name": "Col_402", "type": "INTEGER", "mode": "REQUIRED"}',
+            '{"name": "Col_403", "type": "INTEGER", "mode": "REQUIRED"}',
+            '{"name": "Col_404", "type": "INTEGER", "mode": "REQUIRED"}',
+            '{"name": "Col_405", "type": "INTEGER", "mode": "REQUIRED"}',
+            '{"name": "Col_406", "type": "INTEGER", "mode": "REQUIRED"}',
+            '{"name": "Col_407", "type": "FLOAT", "mode": "REQUIRED"}',
+            '{"name": "Col_408", "type": "FLOAT", "mode": "REQUIRED"}',
+            '{"name": "Col_409", "type": "NUMERIC", "mode": "REQUIRED"}',
+            '{"name": "Col_410", "type": "NUMERIC", "mode": "REQUIRED"}',
+            '{"name": "Col_411", "type": "FLOAT", "mode": "REQUIRED"}',
+            '{"name": "Col_412", "type": "FLOAT", "mode": "REQUIRED"}',
+            '{"name": "Col_413", "type": "FLOAT", "mode": "REQUIRED"}',
+            '{"name": "Col_414", "type": "FLOAT", "mode": "REQUIRED"}',
+            '{"name": "Col_415", "type": "FLOAT", "mode": "REQUIRED"}',
+        ],
+        "bq_standard_data_type": [
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "FLOAT64",
+            "FLOAT64",
+            "NUMERIC",
+            "NUMERIC",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "FLOAT64",
+            "FLOAT64",
+            "NUMERIC",
+            "NUMERIC",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "FLOAT64",
+            "FLOAT64",
+            "NUMERIC",
+            "NUMERIC",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "INT64",
+            "FLOAT64",
+            "FLOAT64",
+            "NUMERIC",
+            "NUMERIC",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+            "FLOAT64",
+        ],
+    },
+
+    "name_backquote":
+    {
+        "ddl":
             """
             CREATE TABLE `Sample_Table` (
               `Col_01` varchar(100),
@@ -477,23 +746,23 @@ TEST_DATA = {
               UNIQUE (`Col_03`, `Col_04`)
             );
             """,
-        "database" : None,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": None,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "INT64",
@@ -502,9 +771,9 @@ TEST_DATA = {
         ],
     },
 
-    "name_doublequote" :
+    "name_doublequote":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE "Sample_Table" (
               "Col_01" varchar(100),
@@ -516,23 +785,23 @@ TEST_DATA = {
               UNIQUE ("Col_03", "Col_04")
             );
             """,
-        "database" : None,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_02", "type" : "CHAR", "length" : 200, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : None},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_04", "type" : "DOUBLE", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : True, "constraint" : "UNIQUE", "description" : None},
-            {"name" : "Col_05", "type" : "DATETIME", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": None,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
+            {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "DATETIME", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "INT64",
@@ -541,50 +810,50 @@ TEST_DATA = {
         ],
     },
 
-    "temp_table" :
+    "temp_table":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TEMP TABLE Sample_Table (
               Col_01 varchar(100)
             );
             """,
-        "database" : None,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : True},
-        "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": None,
+        "table": {"schema": None, "name": "Sample_Table", "temp": True},
+        "columns": [
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
         ],
     },
 
-    "table_with_schema" :
+    "table_with_schema":
     {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE "My_Schema"."Sample_Table" (
               Col_01 varchar(100)
             );
             """,
-        "database" : None,
-        "table" : {"schema" : "My_Schema", "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "VARCHAR", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": None,
+        "table": {"schema": "My_Schema", "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
         ],
     },
 
     "column_comment": {
-        "ddl" :
+        "ddl":
             """
             CREATE TABLE Sample_Table (
               Col_01 character varying(100) PRIMARY KEY COMMENT 'Single Quote',
@@ -596,18 +865,18 @@ TEST_DATA = {
               Col_07 character varying[] -- COMMENT 'Comment out' -- character varying array
             );
             """,
-        "database" : None,
-        "table" : {"schema" : None, "name" : "Sample_Table", "temp" : False},
-        "columns" : [
-            {"name" : "Col_01", "type" : "CHARACTER VARYING", "length" : 100, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : True, "unique" : False, "constraint" : "PRIMARY KEY", "description" : "Single Quote"},
-            {"name" : "Col_02", "type" : "JSON", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL", "description" : "Double Quote"},
-            {"name" : "Col_03", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : "in \"Quote\""},
-            {"name" : "Col_04", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 2, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : "in 'Quote'"},
-            {"name" : "Col_05", "type" : "INTEGER", "length" : None, "scale" : None, "array_dimensional" : 3, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : "コメント is full-width(Japanese) character"},
-            {"name" : "Col_06", "type" : "CHARACTER", "length" : None, "scale" : None, "array_dimensional" : 0, "not_null" : True, "pk" : False, "unique" : False, "constraint" : "NOT NULL", "description" : "Comma, strings, ,"},
-            {"name" : "Col_07", "type" : "CHARACTER VARYING", "length" : None, "scale" : None, "array_dimensional" : 1, "not_null" : False, "pk" : False, "unique" : False, "constraint" : "", "description" : None},
+        "database": None,
+        "table": {"schema": None, "name": "Sample_Table", "temp": False},
+        "columns": [
+            {"name": "Col_01", "type": "CHARACTER VARYING", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": "Single Quote"},
+            {"name": "Col_02", "type": "JSON", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": "Double Quote"},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": "in \"Quote\""},
+            {"name": "Col_04", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 2, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": "in 'Quote'"},
+            {"name": "Col_05", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 3, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": "コメント is full-width(Japanese) character"},
+            {"name": "Col_06", "type": "CHARACTER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": "Comma, strings, ,"},
+            {"name": "Col_07", "type": "CHARACTER VARYING", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
-        "bq_field" : [
+        "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED", "description": "Single Quote"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED", "description": "Double Quote"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "REPEATED", "description": "in \\"Quote\\""}',
@@ -616,7 +885,7 @@ TEST_DATA = {
             '{"name": "Col_06", "type": "STRING", "mode": "REQUIRED", "description": "Comma, strings, ,"}',
             '{"name": "Col_07", "type": "STRING", "mode": "REPEATED"}',
         ],
-        "bq_standard_data_type" : [
+        "bq_standard_data_type": [
             "STRING",
             "STRING",
             "INT64",
@@ -852,6 +1121,7 @@ DDL_SET_PATTERN = IntEnum("DDL_SET_PATTERN", "method property")
     ("default_postgres_redshift", DDL_SET_PATTERN.method),
     ("datatype_oracle", DDL_SET_PATTERN.method),
     ("datatype_postgres", DDL_SET_PATTERN.method),
+    ("datatype_mysql", DDL_SET_PATTERN.method),
     ("name_backquote", DDL_SET_PATTERN.method),
     ("name_doublequote", DDL_SET_PATTERN.method),
     ("temp_table", DDL_SET_PATTERN.method),
@@ -903,6 +1173,8 @@ def test_parse(test_case, parse_pattern):
 
         assert col.name == data_col["name"]
         assert col.data_type == data_col["type"]
+        assert col.is_unsigned == data_col["is_unsigned"]
+        assert col.is_zerofill == data_col["is_zerofill"]
         assert col.length == data_col["length"] if data_col["length"] is not None else col.length is None
         assert col.precision == data_col["length"] if data_col["length"] is not None else col.length is None
         assert col.scale == data_col["scale"] if data_col["scale"] is not None else col.scale is None
