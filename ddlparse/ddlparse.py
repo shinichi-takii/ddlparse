@@ -505,13 +505,11 @@ class DdlParse(DdlParseBase):
     (
         (
             \s*\b(?:NOT\s+)NULL?\b
-        )?
-        (
+        )?(
             \s*\bAUTO_INCREMENT\b
         )?(
             \s*\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b
-        )?
-        (
+        )?(
             \s*\bDEFAULT\b\s+(
                 ([A-Za-z0-9_\.\'\" -]|[^\x01-\x7E])*\:\:[A-Za-z0-9\[\]]+
                 |
@@ -521,8 +519,7 @@ class DdlParse(DdlParseBase):
                 |
                 [^,]+
             )
-        )?
-        (
+        )?(
             \s*\bCOMMENT\b\s+(
                 \'(\\\'|[^\']|,)+\'
                 |
@@ -530,6 +527,12 @@ class DdlParse(DdlParseBase):
                 |
                 [^,]+
             )
+        )?(
+            \s*\bENCODE\s+\w+\b
+        )?(
+            \s*\b(?:NOT\s+)NULL?\b
+        )?(
+            \s*\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b
         )?
     )
     """
