@@ -321,8 +321,8 @@ TEST_DATA = {
         "ddl":
             """
             CREATE TABLE Sample_Table (
-              Col_01 char(1) DEFAULT '0'::bpchar,
-              Col_02 char(1) DEFAULT '0'::bpchar,
+              Col_01 char(1) DEFAULT '0'::bpchar PRIMARY KEY,
+              Col_02 char(1) DEFAULT '0'::bpchar ENCODE lzo NOT NULL,
               Col_03 integer DEFAULT 0,
               Col_04 numeric(10) DEFAULT 0,
               Col_05 numeric(20,3) DEFAULT 0.0,
@@ -333,8 +333,8 @@ TEST_DATA = {
         "database": None,
         "table": {"schema": None, "name": "Sample_Table", "temp": False},
         "columns": [
-            {"name": "Col_01", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
-            {"name": "Col_02", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_01", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
+            {"name": "Col_02", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
             {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
             {"name": "Col_04", "type": "NUMERIC", "length": 10, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
             {"name": "Col_05", "type": "NUMERIC", "length": 20, "scale": 3, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
@@ -342,8 +342,8 @@ TEST_DATA = {
             {"name": "Col_07", "type": "CHARACTER VARYING", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
         "bq_field": [
-            '{"name": "Col_01", "type": "STRING", "mode": "NULLABLE"}',
-            '{"name": "Col_02", "type": "STRING", "mode": "NULLABLE"}',
+            '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
+            '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_05", "type": "NUMERIC", "mode": "NULLABLE"}',
