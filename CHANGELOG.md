@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.7.0] - 2020-08-13
+### Added
+- Add `DdlParseColumn.default` property.
+- Add `DdlParseColumn.auto_increment` property.
+- Add `DdlParseColumn.encode` property.
+- Add `DdlParseColumn.distkey` property.
+- Add `DdlParseColumn.sortkey` property.
+
+### Fixed
+- Fix parse of column name with space character.
+
+
 ## [1.6.1] - 2020-08-08
 ### Fixed
 - Fix parse Redshift `ENCODE` attribute.
@@ -166,6 +178,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial released.
 
 
+[1.7.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/shinichi-takii/ddlparse/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.4.0...v1.5.0

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2018 Shinichi Takii, shinichi.takii@gmail.com
+# Copyright (C) 2018 Shinichi Takii, shinichi.takii@shaketh.com
 #
 # This module is part of python-ddlparse and is released under
 # the BSD License: https://opensource.org/licenses/BSD-3-Clause
@@ -139,17 +139,76 @@ class DdlParseColumn(DdlParseTableColumnBase):
 
     @constraint.setter
     def constraint(self, constraint):
-        self._constraint = None if constraint is None else constraint.upper()
 
-        self._not_null = False if self._constraint is None or not re.search(r"(NOT NULL|PRIMARY KEY)", self._constraint) else True
-        self._pk = False if self._constraint is None or not re.search("PRIMARY KEY", self._constraint) else True
-        self._unique = False if self._constraint is None or not re.search("UNIQUE", self._constraint) else True
+        # Compatibility v1.6.1 and earlier
+        if type(constraint) is str:
+            self._constraint = None if constraint is None else constraint.upper()
+
+            self._not_null = False if self._constraint is None or not re.search(r"(NOT NULL|PRIMARY KEY)", self._constraint) else True
+            self._pk = False if self._constraint is None or not re.search("PRIMARY KEY", self._constraint) else True
+            self._unique = False if self._constraint is None or not re.search("UNIQUE", self._constraint) else True
+
+            self._comment = None
+            if constraint is not None:
+                matches = re.findall(r"(?:\bCOMMENT\b\s+)(['\"])(.+)\1", constraint, re.IGNORECASE)
+                if len(matches) > 0:
+                    self._comment = matches[0][1]
+
+            return
+
+
+        # v1.7.0 or later
+
+        self._constraint = None if constraint is None else ' '.join(constraint).upper()
+
+        constraints = {}
+        constraints['null'] = ''
+        constraints['auto_increment'] = ''
+        constraints['key'] = ''
+        constraints['default'] = ''
+        constraints['comment'] = ''
+        constraints['encode'] = ''
+        constraints['distkey'] = ''
+        constraints['sortkey'] = ''
+
+        if constraint:
+            for constraint_name, val in constraint.items():
+                constraints[constraint_name] = val
+
+
+        self._pk = True if re.search("PRIMARY", constraints['key'], re.IGNORECASE) else False
+
+        self._not_null = False
+        if self._pk or re.search(r"(NOT\s+NULL)", constraints['null'], re.IGNORECASE):
+            self._not_null = True
+
+        self._unique = True if re.search("UNIQUE", constraints['key'], re.IGNORECASE) else False
+
+        self._auto_increment = True if len(constraints['auto_increment']) > 0 else False
+        self._distkey        = True if len(constraints['distkey']) > 0 else False
+        self._sortkey        = True if len(constraints['sortkey']) > 0 else False
+
+        self._encode = None
+        if constraint is not None:
+            matches = re.findall(r"\bENCODE\s+([A-Za-z0-9]+)\b", constraints['encode'], re.IGNORECASE)
+            if len(matches) > 0:
+                self._encode = matches[0]
+
+        self._default = None
+        if constraint is not None:
+            matches = re.findall(
+                r"\bDEFAULT\b\s+(?:((?:[A-Za-z0-9_\.\'\" -\{\}]|[^\x01-\x7E])*\:\:(?:character varying)?[A-Za-z0-9\[\]]+)|(?:\')((?:\\\'|[^\']|,)+)(?:\')|(?:\")((?:\\\"|[^\"]|,)+)(?:\")|([^,\s]+))",
+                constraints['default'],
+                re.IGNORECASE)
+            if len(matches) > 0:
+                self._default = ''.join(matches[0])
 
         self._comment = None
         if constraint is not None:
-            matches = re.findall(r"(?:\bCOMMENT\b\s+)(['\"])(.+)\1", constraint, re.IGNORECASE)
+            matches = re.findall(r"\bCOMMENT\b\s+(?:(?:\')((?:\\\'|[^\']|,)+)(?:\')|(?:\")((?:\\\"|[^\"]|,)+)(?:\")|([^,\s]+))", constraints['comment'], re.IGNORECASE)
             if len(matches) > 0:
-                self._comment = matches[0][1]
+                self._comment = ''.join(matches[0])
+
 
     @property
     def comment(self):
@@ -195,6 +254,26 @@ class DdlParseColumn(DdlParseTableColumnBase):
     @unique.setter
     def unique(self, flag):
         self._unique = flag
+
+    @property
+    def auto_increment(self):
+        return self._auto_increment
+
+    @property
+    def distkey(self):
+        return self._distkey
+
+    @property
+    def sortkey(self):
+        return self._sortkey
+
+    @property
+    def encode(self):
+        return self._encode
+
+    @property
+    def default(self):
+        return self._default
 
     @property
     def bigquery_data_type(self):
@@ -496,48 +575,11 @@ class DdlParse(DdlParseBase):
         map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, FOREIGN KEY, REFERENCES, KEY, CHAR, BYTE".replace(", ", ",").split(","))
     _TYPE_UNSIGNED, _TYPE_ZEROFILL = \
         map(CaselessKeyword, "UNSIGNED, ZEROFILL".replace(", ", ",").split(","))
+    _COL_ATTR_DISTKEY, _COL_ATTR_SORTKEY = \
+        map(CaselessKeyword, "DISTKEY, SORTKEY".replace(", ", ",").split(","))
     _SUPPRESS_QUOTE = _BACKQUOTE | _DOUBLEQUOTE
 
     _COMMENT = Suppress("--" + Regex(r".+"))
-
-    _COLUMN_CONSTRAINT_BASE = r"""
-    (?!--)
-    (
-        (
-            \s*\b(?:NOT\s+)NULL?\b
-        )?(
-            \s*\bAUTO_INCREMENT\b
-        )?(
-            \s*\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b
-        )?(
-            \s*\bDEFAULT\b\s+(
-                ([A-Za-z0-9_\.\'\" -]|[^\x01-\x7E])*\:\:[A-Za-z0-9\[\]]+
-                |
-                \'(\\\'|[^\']|,)+\'
-                |
-                \"(\\\"|[^\"]|,)+\"
-                |
-                [^,]+
-            )
-        )?(
-            \s*\bCOMMENT\b\s+(
-                \'(\\\'|[^\']|,)+\'
-                |
-                \"(\\\"|[^\"]|,)+\"
-                |
-                [^,]+
-            )
-        )?(
-            \s*\bENCODE\s+\w+\b
-        )?(
-            \s*\b(?:NOT\s+)NULL?\b
-        )?(
-            \s*\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b
-        )?
-    )
-    """
-
-    _COLUMN_CONSTRAINT = re.sub(r"(^\s+|\n)", r"", _COLUMN_CONSTRAINT_BASE, flags=re.MULTILINE)
 
 
     _CREATE_TABLE_STATEMENT = Suppress(_CREATE) + Optional(_TEMP)("temp") + Suppress(_TABLE) + Optional(Suppress(CaselessKeyword("IF NOT EXISTS"))) \
@@ -571,7 +613,7 @@ class DdlParse(DdlParseBase):
                 )("constraint")
                 |
                 Group(
-                    Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_")("name") + Optional(_SUPPRESS_QUOTE)
+                    ((_SUPPRESS_QUOTE + Word(alphanums + " _")("name") + _SUPPRESS_QUOTE) ^ (Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_")("name") + Optional(_SUPPRESS_QUOTE)))
                     + Group(
                         Group(
                             Word(alphanums + "_")
@@ -582,7 +624,21 @@ class DdlParse(DdlParseBase):
                         + Optional(_TYPE_ZEROFILL)("zerofill")
                     )("type")
                     + Optional(Word(r"\[\]"))("array_brackets")
-                    + Optional(Regex(_COLUMN_CONSTRAINT, re.IGNORECASE))("constraint")
+                    + Optional(
+                        Regex(r"(?!--)", re.IGNORECASE)
+                        + Group(
+                            Optional(Regex(r"\b(?:NOT\s+)NULL?\b", re.IGNORECASE))("null")
+                            & Optional(Regex(r"\bAUTO_INCREMENT\b", re.IGNORECASE))("auto_increment")
+                            & Optional(Regex(r"\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b", re.IGNORECASE))("key")
+                            & Optional(Regex(
+                                r"\bDEFAULT\b\s+(?:((?:[A-Za-z0-9_\.\'\" -\{\}]|[^\x01-\x7E])*\:\:(?:character varying)?[A-Za-z0-9\[\]]+)|(?:\')((?:\\\'|[^\']|,)+)(?:\')|(?:\")((?:\\\"|[^\"]|,)+)(?:\")|([^,\s]+))",
+                                re.IGNORECASE))("default")
+                            & Optional(Regex(r"\bCOMMENT\b\s+(\'(\\\'|[^\']|,)+\'|\"(\\\"|[^\"]|,)+\"|[^,\s]+)", re.IGNORECASE))("comment")
+                            & Optional(Regex(r"\bENCODE\s+[A-Za-z0-9]+\b", re.IGNORECASE))("encode")
+                            & Optional(_COL_ATTR_DISTKEY)("distkey")
+                            & Optional(_COL_ATTR_SORTKEY)("sortkey")
+                        )("constraint")
+                    )
                 )("column")
                 |
                 _COMMENT
