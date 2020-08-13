@@ -3,7 +3,7 @@
 import pytest, re, textwrap
 from enum import IntEnum
 
-from ddlparse.ddlparse import DdlParse
+from ddlparse.ddlparse import DdlParse, DdlParseColumn
 
 
 TEST_DATA = {
@@ -251,7 +251,7 @@ TEST_DATA = {
             {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
             {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
             {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
-            {"name": "Col_06", "type": "DECIMAL", "length": 2, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
+            {"name": "Col_06", "type": "DECIMAL", "length": 2, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None, "default": "0.0"},
             {"name": "Col_07", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
         "bq_field": [
@@ -322,24 +322,24 @@ TEST_DATA = {
             """
             CREATE TABLE Sample_Table (
               Col_01 char(1) DEFAULT '0'::bpchar PRIMARY KEY,
-              Col_02 char(1) DEFAULT '0'::bpchar ENCODE lzo NOT NULL,
-              Col_03 integer DEFAULT 0,
+              Col_02 char(1) DEFAULT '0'::bpchar ENCODE lzo DISTKEY NOT NULL,
+              Col_03 integer DEFAULT 0 SORTKEY,
               Col_04 numeric(10) DEFAULT 0,
               Col_05 numeric(20,3) DEFAULT 0.0,
               Col_06 varchar(100) DEFAULT '!\"#$%&\\\'()*+,-./:;<=>?@[\\]^_`{|}~',
-              Col_07 character varying[] DEFAULT '{}'::character varying[]
+              Col_07 character varying[] DEFAULT '{}'::character varying[] NOT NULL
             );
             """,
         "database": None,
         "table": {"schema": None, "name": "Sample_Table", "temp": False},
         "columns": [
-            {"name": "Col_01", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
-            {"name": "Col_02", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
-            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
-            {"name": "Col_04", "type": "NUMERIC", "length": 10, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
-            {"name": "Col_05", "type": "NUMERIC", "length": 20, "scale": 3, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
-            {"name": "Col_06", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
-            {"name": "Col_07", "type": "CHARACTER VARYING", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_01", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "not_null": True, "pk": True, "constraint": "PRIMARY KEY", "default": "'0'::bpchar"},
+            {"name": "Col_02", "type": "CHAR", "length": 1, "scale": None, "array_dimensional": 0, "not_null": True, "pk": False, "constraint": "NOT NULL", "distkey": True, "encode": "lzo", "default": "'0'::bpchar"},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "not_null": False, "pk": False, "constraint": "", "sortkey": True, "default": "0"},
+            {"name": "Col_04", "type": "NUMERIC", "length": 10, "scale": None, "array_dimensional": 0, "not_null": False, "pk": False, "constraint": "", "default": "0"},
+            {"name": "Col_05", "type": "NUMERIC", "length": 20, "scale": 3, "array_dimensional": 0, "not_null": False, "pk": False, "constraint": "", "default": "0.0"},
+            {"name": "Col_06", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "not_null": False, "pk": False, "constraint": "", "default": '!\"#$%&\\\'()*+,-./:;<=>?@[\\]^_`{|}~'},
+            {"name": "Col_07", "type": "CHARACTER VARYING", "length": None, "scale": None, "array_dimensional": 1, "not_null": True, "pk": False, "constraint": "NOT NULL", "default": "'{}'::character varying[]"},
         ],
         "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -780,7 +780,7 @@ TEST_DATA = {
               "Col_02" char(200),
               "Col_03" integer,
               "Col_04" double,
-              "Col_05" datetime,
+              "Col 05" datetime,
               PRIMARY KEY ("Col_01", "Col_02"),
               UNIQUE ("Col_03", "Col_04")
             );
@@ -792,14 +792,14 @@ TEST_DATA = {
             {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
             {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
             {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
-            {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col 05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
         "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_02", "type": "STRING", "mode": "REQUIRED"}',
             '{"name": "Col_03", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_04", "type": "FLOAT", "mode": "NULLABLE"}',
-            '{"name": "Col_05", "type": "DATETIME", "mode": "NULLABLE"}',
+            '{"name": "Col 05", "type": "DATETIME", "mode": "NULLABLE"}',
         ],
         "bq_standard_data_type": [
             "STRING",
@@ -873,7 +873,7 @@ TEST_DATA = {
             {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": "in \"Quote\""},
             {"name": "Col_04", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 2, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": "in 'Quote'"},
             {"name": "Col_05", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 3, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": "コメント is full-width(Japanese) character"},
-            {"name": "Col_06", "type": "CHARACTER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": "Comma, strings, ,"},
+            {"name": "Col_06", "type": "CHARACTER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": "Comma, strings, ,", "default": "a\\'bc"},
             {"name": "Col_07", "type": "CHARACTER VARYING", "length": None, "scale": None, "array_dimensional": 1, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
         ],
         "bq_field": [
@@ -1171,21 +1171,47 @@ def test_parse(test_case, parse_pattern):
     for col in table.columns.values():
         data_col = data["columns"][i]
 
-        assert col.name == data_col["name"]
-        assert col.data_type == data_col["type"]
-        assert col.is_unsigned == data_col["is_unsigned"]
-        assert col.is_zerofill == data_col["is_zerofill"]
-        assert col.length == data_col["length"] if data_col["length"] is not None else col.length is None
-        assert col.precision == data_col["length"] if data_col["length"] is not None else col.length is None
-        assert col.scale == data_col["scale"] if data_col["scale"] is not None else col.scale is None
+        # カラム制約 テスト評価のデフォルト値をセット
+        _DEFAULT_CONSTRAINT = {
+            'is_unsigned': False,
+            'is_zerofill': False,
+            'description': None,
+            'array_dimensional': 0,
+            'not_null': False,
+            'primary_key': False,
+            'unique': False,
+            'auto_increment': False,
+            'distkey': False,
+            'sortkey': False,
+            'encode': None,
+            'default': None,
+        }
+
+        for constraint_name, default_val in _DEFAULT_CONSTRAINT.items():
+            if constraint_name not in data_col.keys():
+                data_col[constraint_name] = default_val
+
+
+        assert col.name              == data_col["name"]
+        assert col.data_type         == data_col["type"]
+        assert col.is_unsigned       == data_col["is_unsigned"]
+        assert col.is_zerofill       == data_col["is_zerofill"]
+        assert col.length            == data_col["length"] if data_col["length"] is not None else col.length is None
+        assert col.precision         == data_col["length"] if data_col["length"] is not None else col.length is None
+        assert col.scale             == data_col["scale"] if data_col["scale"] is not None else col.scale is None
         assert col.array_dimensional == data_col["array_dimensional"]
-        assert col.not_null == data_col["not_null"]
-        assert col.primary_key == data_col["pk"]
-        assert col.unique == data_col["unique"]
-        assert col.constraint == data_col["constraint"]
-        assert col.source_database == data["database"]
-        assert col.comment == data_col["description"] if data_col["description"] is not None else col.comment is None
-        assert col.description == data_col["description"] if data_col["description"] is not None else col.description is None
+        assert col.not_null          == data_col["not_null"]
+        assert col.primary_key       == data_col["pk"]
+        assert col.unique            == data_col["unique"]
+        assert col.constraint        == data_col["constraint"]
+        assert col.source_database   == data["database"]
+        assert col.comment           == data_col["description"] if data_col["description"] is not None else col.comment is None
+        assert col.description       == data_col["description"] if data_col["description"] is not None else col.description is None
+        assert col.auto_increment    == data_col["auto_increment"]
+        assert col.distkey           == data_col["distkey"]
+        assert col.sortkey           == data_col["sortkey"]
+        assert col.encode            == data_col["encode"]
+        assert col.default           == data_col["default"]
 
         data_bq_field = data["bq_field"][i]
         assert col.to_bigquery_field() == data_bq_field
@@ -1281,3 +1307,22 @@ def test_set_comment():
     # Check description setter
     table.columns["Col_01"].description = "comment_2"
     assert table.columns["Col_01"].description == "comment_2"
+
+
+def test_constraint_compatibility():
+    """
+    Test compatibility v1.6.1 and earlier
+    """
+
+    dl_col = DdlParseColumn(
+        name='Col',
+        data_type_array={'type_name': ['INT']},
+    )
+
+    dl_col.constraint = "PRIMARY KEY COMMENT 'foo'"
+
+    # Check column constraint
+    assert dl_col.not_null is True
+    assert dl_col.primary_key is True
+    assert dl_col.unique is False
+    assert dl_col.comment == 'foo'

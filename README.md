@@ -116,22 +116,29 @@ print(table.to_bigquery_fields(DdlParse.NAME_CASE.upper))
 print("* COLUMN *")
 for col in table.columns.values():
     col_info = {}
-    col_info["name"] = col.name
-    col_info["data_type"] = col.data_type
-    col_info["length"] = col.length
-    col_info["precision(=length)"] = col.precision
-    col_info["scale"] = col.scale
-    col_info["is_unsigned"] = col.is_unsigned
-    col_info["is_zerofill"] = col.is_zerofill
-    col_info["constraint"] = col.constraint
-    col_info["not_null"] = col.not_null
-    col_info["PK"] = col.primary_key
-    col_info["unique"] = col.unique
-    col_info["bq_legacy_data_type"] = col.bigquery_legacy_data_type
+
+    col_info["name"]                  = col.name
+    col_info["data_type"]             = col.data_type
+    col_info["length"]                = col.length
+    col_info["precision(=length)"]    = col.precision
+    col_info["scale"]                 = col.scale
+    col_info["is_unsigned"]           = col.is_unsigned
+    col_info["is_zerofill"]           = col.is_zerofill
+    col_info["constraint"]            = col.constraint
+    col_info["not_null"]              = col.not_null
+    col_info["PK"]                    = col.primary_key
+    col_info["unique"]                = col.unique
+    col_info["auto_increment"]        = col.auto_increment
+    col_info["distkey"]               = col.distkey
+    col_info["sortkey"]               = col.sortkey
+    col_info["encode"]                = col.encode
+    col_info["default"]               = col.default
+    col_info["bq_legacy_data_type"]   = col.bigquery_legacy_data_type
     col_info["bq_standard_data_type"] = col.bigquery_standard_data_type
-    col_info["comment"] = col.comment
+    col_info["comment"]               = col.comment
     col_info["description(=comment)"] = col.description
-    col_info["bigquery_field"] = json.loads(col.to_bigquery_field())
+    col_info["bigquery_field"]        = json.loads(col.to_bigquery_field())
+
     print(json.dumps(col_info, indent=2, ensure_ascii=False))
 
 print("* DDL (CREATE TABLE) statements *")
@@ -143,6 +150,7 @@ print(table.to_bigquery_ddl(DdlParse.NAME_CASE.upper))
 
 print("* Get Column object (case insensitive) *")
 print(table.columns["total"])
+print(table.columns["total"].data_type)
 ```
 
 ## License
@@ -151,7 +159,7 @@ print(table.columns["total"])
 
 ## Author
 
-Shinichi Takii <shinichi.takii@gmail.com>
+Shinichi Takii <shinichi.takii@shaketh.com>
 
 ## Links
 
