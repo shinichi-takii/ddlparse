@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `DdlParseColumn.sortkey` property.
 
 ### Fixed
-- Fix parse of columns name with space character.
+- Fix parse of column name with space character.
 
 
 ## [1.6.1] - 2020-08-08
