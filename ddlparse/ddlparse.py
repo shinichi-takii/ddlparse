@@ -170,6 +170,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
         constraints['encode'] = ''
         constraints['distkey'] = ''
         constraints['sortkey'] = ''
+        constraints['character_set'] = ''
 
         if constraint:
             for constraint_name, val in constraint.items():
@@ -187,6 +188,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
         self._auto_increment = True if len(constraints['auto_increment']) > 0 else False
         self._distkey        = True if len(constraints['distkey']) > 0 else False
         self._sortkey        = True if len(constraints['sortkey']) > 0 else False
+        self._character_set  = constraints['character_set'] if constraints['character_set'] else None
 
         self._encode = None
         if constraint is not None:
@@ -274,6 +276,10 @@ class DdlParseColumn(DdlParseTableColumnBase):
     @property
     def default(self):
         return self._default
+
+    @property
+    def character_set(self):
+        return self._character_set
 
     @property
     def bigquery_data_type(self):
@@ -575,8 +581,16 @@ class DdlParse(DdlParseBase):
         map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, FOREIGN KEY, REFERENCES, KEY, CHAR, BYTE".replace(", ", ",").split(","))
     _TYPE_UNSIGNED, _TYPE_ZEROFILL = \
         map(CaselessKeyword, "UNSIGNED, ZEROFILL".replace(", ", ",").split(","))
-    _COL_ATTR_DISTKEY, _COL_ATTR_SORTKEY = \
-        map(CaselessKeyword, "DISTKEY, SORTKEY".replace(", ", ",").split(","))
+    _COL_ATTR_DISTKEY, _COL_ATTR_SORTKEY, _COL_ATTR_CHARACTER_SET = \
+        map(CaselessKeyword, "DISTKEY, SORTKEY, CHARACTER SET".replace(", ", ",").split(","))
+    _FK_MATCH = \
+        CaselessKeyword("MATCH") + Word(alphanums + "_")
+    _FK_ON, _FK_ON_OPT_RESTRICT, _FK_ON_OPT_CASCADE, _FK_ON_OPT_SET_NULL, _FK_ON_OPT_NO_ACTION = \
+        map(CaselessKeyword, "ON, RESTRICT, CASCADE, SET NULL, NO ACTION".replace(", ", ",").split(","))
+    _FK_ON_DELETE = \
+        _FK_ON + CaselessKeyword("DELETE") + (_FK_ON_OPT_RESTRICT | _FK_ON_OPT_CASCADE | _FK_ON_OPT_SET_NULL | _FK_ON_OPT_NO_ACTION)
+    _FK_ON_UPDATE = \
+        _FK_ON + CaselessKeyword("UPDATE") + (_FK_ON_OPT_RESTRICT | _FK_ON_OPT_CASCADE | _FK_ON_OPT_SET_NULL | _FK_ON_OPT_NO_ACTION)
     _SUPPRESS_QUOTE = _BACKQUOTE | _DOUBLEQUOTE
 
     _COMMENT = Suppress("--" + Regex(r".+"))
@@ -607,6 +621,9 @@ class DdlParse(DdlParseBase):
                             + Optional(Suppress(_REFERENCES)
                                 + Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_")("references_table") + Optional(_SUPPRESS_QUOTE)
                                 + _LPAR + Group(delimitedList(Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_") + Optional(_SUPPRESS_QUOTE)))("references_columns") + _RPAR
+                                + Optional(_FK_MATCH)("references_fk_match")  # MySQL
+                                + Optional(_FK_ON_DELETE)("references_fk_on_delete")  # MySQL
+                                + Optional(_FK_ON_UPDATE)("references_fk_on_update")  # MySQL
                             )
                         )
                     )
@@ -634,9 +651,10 @@ class DdlParse(DdlParseBase):
                                 r"\bDEFAULT\b\s+(?:((?:[A-Za-z0-9_\.\'\" -\{\}]|[^\x01-\x7E])*\:\:(?:character varying)?[A-Za-z0-9\[\]]+)|(?:\')((?:\\\'|[^\']|,)+)(?:\')|(?:\")((?:\\\"|[^\"]|,)+)(?:\")|([^,\s]+))",
                                 re.IGNORECASE))("default")
                             & Optional(Regex(r"\bCOMMENT\b\s+(\'(\\\'|[^\']|,)+\'|\"(\\\"|[^\"]|,)+\"|[^,\s]+)", re.IGNORECASE))("comment")
-                            & Optional(Regex(r"\bENCODE\s+[A-Za-z0-9]+\b", re.IGNORECASE))("encode")
-                            & Optional(_COL_ATTR_DISTKEY)("distkey")
-                            & Optional(_COL_ATTR_SORTKEY)("sortkey")
+                            & Optional(Regex(r"\bENCODE\s+[A-Za-z0-9]+\b", re.IGNORECASE))("encode")  # Redshift
+                            & Optional(_COL_ATTR_DISTKEY)("distkey")  # Redshift
+                            & Optional(_COL_ATTR_SORTKEY)("sortkey")  # Redshift
+                            & Optional(Suppress(_COL_ATTR_CHARACTER_SET) + Word(alphanums + "_")("character_set"))  # MySQL
                         )("constraint")
                     )
                 )("column")

@@ -17,7 +17,7 @@
 - DDL parse and get table schema information.
 - Currently, only the `CREATE TABLE` statement is supported.
 - Convert to [BigQuery JSON schema](https://cloud.google.com/bigquery/docs/schemas#creating_a_json_schema_file) and [BigQuery DDL statements](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language).
-- Supported databases are MySQL, PostgreSQL, Oracle, Redshift.
+- Supported databases are MySQL/MariaDB, PostgreSQL, Oracle, Redshift.
 
 ## Requirement
 
@@ -133,6 +133,7 @@ for col in table.columns.values():
     col_info["sortkey"]               = col.sortkey
     col_info["encode"]                = col.encode
     col_info["default"]               = col.default
+    col_info["character_set"]         = col.character_set
     col_info["bq_legacy_data_type"]   = col.bigquery_legacy_data_type
     col_info["bq_standard_data_type"] = col.bigquery_standard_data_type
     col_info["comment"]               = col.comment
