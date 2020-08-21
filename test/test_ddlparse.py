@@ -232,7 +232,7 @@ TEST_DATA = {
             """
             CREATE TABLE Sample_Table (
               Col_01 varchar(100),
-              Col_02 char(200),
+              Col_02 char(200) CHARACTER SET latin1,
               Col_03 integer,
               Col_04 double,
               Col_05 datetime,
@@ -240,19 +240,23 @@ TEST_DATA = {
               Col_07 integer,
               CONSTRAINT const_01 PRIMARY KEY (Col_01, Col_02),
               CONSTRAINT \"const_02\" UNIQUE (Col_03, Col_04),
-              CONSTRAINT \"const_03\" FOREIGN KEY (Col_04, \"Col_05\") REFERENCES ref_table_01 (\"Col_04\", Col_05)
+              CONSTRAINT \"const_03\" FOREIGN KEY (Col_04, \"Col_05\")
+                REFERENCES ref_table_01 (\"Col_04\", Col_05)
+                MATCH FULL
+                ON DELETE SET NULL
+                ON UPDATE NO ACTION
             );
             """,
         "database": DdlParse.DATABASE.mysql,
         "table": {"schema": None, "name": "Sample_Table", "temp": False},
         "columns": [
-            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
-            {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "description": None},
-            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
-            {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE", "description": None},
-            {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
-            {"name": "Col_06", "type": "DECIMAL", "length": 2, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None, "default": "0.0"},
-            {"name": "Col_07", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": "", "description": None},
+            {"name": "Col_01", "type": "VARCHAR", "length": 100, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY"},
+            {"name": "Col_02", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": True, "unique": False, "constraint": "PRIMARY KEY", "character_set": "latin1"},
+            {"name": "Col_03", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE"},
+            {"name": "Col_04", "type": "DOUBLE", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": True, "constraint": "UNIQUE"},
+            {"name": "Col_05", "type": "DATETIME", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": ""},
+            {"name": "Col_06", "type": "DECIMAL", "length": 2, "scale": 1, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "default": "0.0"},
+            {"name": "Col_07", "type": "INTEGER", "length": None, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "constraint": ""},
         ],
         "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -1185,6 +1189,7 @@ def test_parse(test_case, parse_pattern):
             'sortkey': False,
             'encode': None,
             'default': None,
+            'character_set': None,
         }
 
         for constraint_name, default_val in _DEFAULT_CONSTRAINT.items():
@@ -1212,6 +1217,7 @@ def test_parse(test_case, parse_pattern):
         assert col.sortkey           == data_col["sortkey"]
         assert col.encode            == data_col["encode"]
         assert col.default           == data_col["default"]
+        assert col.character_set     == data_col["character_set"]
 
         data_bq_field = data["bq_field"][i]
         assert col.to_bigquery_field() == data_bq_field

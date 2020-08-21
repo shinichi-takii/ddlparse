@@ -88,6 +88,7 @@ for col in table.columns.values():
     col_info["sortkey"]               = col.sortkey
     col_info["encode"]                = col.encode
     col_info["default"]               = col.default
+    col_info["character_set"]         = col.character_set
     col_info["bq_legacy_data_type"]   = col.bigquery_legacy_data_type
     col_info["bq_standard_data_type"] = col.bigquery_standard_data_type
     col_info["comment"]               = col.comment
