@@ -63,7 +63,7 @@ TEST_DATA = {
               Col_47 decimal(*, 3),  -- comment
               Col_48 numeric,
               Col_49 number,
-              Col_50 decimal
+              Col_50 decimal,
               Col_51 string(20)
             );
             """,
