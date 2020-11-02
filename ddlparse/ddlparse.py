@@ -287,7 +287,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
 
         # BigQuery data type = {source_database: [data type, ...], ...}
         BQ_DATA_TYPE_DIC = OrderedDict()
-        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(CHAR|TEXT|CLOB|JSON|UUID)")]}
+        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(STRING|CHAR|TEXT|CLOB|JSON|UUID)")]}
         BQ_DATA_TYPE_DIC["INTEGER"] = {None: [re.compile(r"INT|SERIAL|YEAR")]}
         BQ_DATA_TYPE_DIC["FLOAT"] = {None: [re.compile(r"(FLOAT|DOUBLE)"), "REAL", "MONEY"]}
         BQ_DATA_TYPE_DIC["DATETIME"] = {
