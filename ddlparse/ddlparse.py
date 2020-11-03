@@ -298,7 +298,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
         BQ_DATA_TYPE_DIC["DATE"] = {None: ["DATE"]}
         BQ_DATA_TYPE_DIC["TIME"] = {None: ["TIME"]}
         BQ_DATA_TYPE_DIC["BOOLEAN"] = {None: [re.compile(r"BOOL")]}
-        BQ_DATA_TYPE_DIC["BYTES"] = {None: ["BYTES"]}
+        BQ_DATA_TYPE_DIC["BYTES"] = {None: ["BYTES", "BINARY", "VARBINARY", "BYTEA"]}
 
         for bq_type, conditions in BQ_DATA_TYPE_DIC.items():
             for source_db, source_datatypes in conditions.items():
