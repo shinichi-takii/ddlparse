@@ -65,7 +65,9 @@ TEST_DATA = {
               Col_49 number,
               Col_50 decimal,
               Col_51 string(20),
-              Col_52 bytes(20)
+              Col_52 bytes(20),
+              Col_53 char(200) NULL,
+              Col_54 char(200) NOT NULL
             );
             """,
         "database": None,
@@ -123,6 +125,8 @@ TEST_DATA = {
             {"name": "Col_50", "type": "DECIMAL", "length": None, "scale": None},
             {"name": "Col_51", "type": "STRING", "length": 20, "scale": None},
             {"name": "Col_52", "type": "BYTES", "length": 20, "scale": None},
+            {"name": "Col_53", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": False, "pk": False, "unique": False, "description": None},
+            {"name": "Col_54", "type": "CHAR", "length": 200, "scale": None, "array_dimensional": 0, "is_unsigned": False, "is_zerofill": False, "not_null": True, "pk": False, "unique": False, "constraint": "NOT NULL", "description": None},
         ],
         "bq_field": [
             '{"name": "Col_01", "type": "STRING", "mode": "REQUIRED"}',
@@ -177,6 +181,8 @@ TEST_DATA = {
             '{"name": "Col_50", "type": "INTEGER", "mode": "NULLABLE"}',
             '{"name": "Col_51", "type": "STRING", "mode": "NULLABLE"}',
             '{"name": "Col_52", "type": "BYTES", "mode": "NULLABLE"}',
+            '{"name": "Col_53", "type": "STRING", "mode": "NULLABLE"}',
+            '{"name": "Col_54", "type": "STRING", "mode": "REQUIRED"}',
         ],
         "bq_standard_data_type": [
             "STRING",
@@ -231,6 +237,8 @@ TEST_DATA = {
             "INT64",
             "STRING",
             "BYTES",
+            "STRING",
+            "STRING",
         ],
     },
 
