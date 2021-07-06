@@ -578,8 +578,8 @@ class DdlParse(DdlParseBase):
     """DDL parser"""
 
     _LPAR, _RPAR, _COMMA, _SEMICOLON, _DOT, _DOUBLEQUOTE, _BACKQUOTE, _SPACE = map(Suppress, "(),;.\"` ")
-    _CREATE, _TABLE, _TEMP, _CONSTRAINT, _NOT_NULL, _PRIMARY_KEY, _UNIQUE, _UNIQUE_KEY, _FOREIGN_KEY, _REFERENCES, _KEY, _CHAR_SEMANTICS, _BYTE_SEMANTICS = \
-        map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, FOREIGN KEY, REFERENCES, KEY, CHAR, BYTE".replace(", ", ",").split(","))
+    _CREATE, _TABLE, _TEMP, _CONSTRAINT, _NOT_NULL, _NULL, _PRIMARY_KEY, _UNIQUE, _UNIQUE_KEY, _FOREIGN_KEY, _REFERENCES, _KEY, _CHAR_SEMANTICS, _BYTE_SEMANTICS = \
+        map(CaselessKeyword, "CREATE, TABLE, TEMP, CONSTRAINT, NOT NULL, NULL, PRIMARY KEY, UNIQUE, UNIQUE KEY, FOREIGN KEY, REFERENCES, KEY, CHAR, BYTE".replace(", ", ",").split(","))
     _TYPE_UNSIGNED, _TYPE_ZEROFILL = \
         map(CaselessKeyword, "UNSIGNED, ZEROFILL".replace(", ", ",").split(","))
     _COL_ATTR_DISTKEY, _COL_ATTR_SORTKEY, _COL_ATTR_CHARACTER_SET = \
@@ -645,7 +645,7 @@ class DdlParse(DdlParseBase):
                     + Optional(
                         Regex(r"(?!--)", re.IGNORECASE)
                         + Group(
-                            Optional(Regex(r"\b(?:NOT\s+)NULL?\b", re.IGNORECASE))("null")
+                            Optional(_NOT_NULL ^ _NULL)("null")
                             & Optional(Regex(r"\bAUTO_INCREMENT\b", re.IGNORECASE))("auto_increment")
                             & Optional(Regex(r"\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b", re.IGNORECASE))("key")
                             & Optional(Regex(
