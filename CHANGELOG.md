@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.10.0] - 2021-07-10
+### Added
+- Added supports for Python 3.9
+
+### Fixed
+- Fixed parsing of columns with NULL/NOT NULL constraint.
+
+
 ## [1.9.0] - 2020-11-04
 ### Added
 - Add supports Cloud Spanner data-type.
@@ -58,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `FIXED`
 
 ### Fixed
-- Miner fix.
+- Minor fix.
 
 
 ## [1.5.0] - 2020-07-06
@@ -70,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix parse for column-constraint.
-- Miner fix.
+- Minor fix.
 
 
 ## [1.4.0] - 2019-12-08
@@ -161,7 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `NUMBER` with no length & scale specification
 
 ### Fixed
-- Miner fix.
+- Minor fix.
 
 
 ## [1.1.1] - 2018-03-25
@@ -182,15 +190,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.2] - 2018-01-09
 ### Fixed
-- Miner enhancement.
+- Minor enhancement.
     - `ddlparse.py` : Exclude unused module.
     - `example.py` : Modified comment.
-    - `README.md` : Miner fix.
+    - `README.md` : Minor fix.
 
 
 ## [1.0.1] - 2018-01-07
 ### Fixed
-- Miner enhancement.
+- Minor enhancement.
 
 
 ## [1.0.0]
@@ -198,6 +206,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial released.
 
 
+[1.10.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/shinichi-takii/ddlparse/compare/v1.6.1...v1.7.0
