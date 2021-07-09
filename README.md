@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/ddlparse.svg)](https://pypi.org/project/ddlparse/)
 [![Python version](https://img.shields.io/pypi/pyversions/ddlparse.svg)](https://pypi.org/project/ddlparse/)
-[![Travis CI Build Status](https://travis-ci.org/shinichi-takii/ddlparse.svg?branch=master)](https://travis-ci.org/shinichi-takii/ddlparse)
+[![Travis CI Build Status](https://travis-ci.com/shinichi-takii/ddlparse.svg?branch=master)](https://travis-ci.com/shinichi-takii/ddlparse)
 [![Coveralls Coverage Status](https://coveralls.io/repos/github/shinichi-takii/ddlparse/badge.svg?branch=master)](https://coveralls.io/github/shinichi-takii/ddlparse?branch=master)
 [![codecov Coverage Status](https://codecov.io/gh/shinichi-takii/ddlparse/branch/master/graph/badge.svg)](https://codecov.io/gh/shinichi-takii/ddlparse)
 [![Requirements Status](https://requires.io/github/shinichi-takii/ddlparse/requirements.svg?branch=master)](https://requires.io/github/shinichi-takii/ddlparse/requirements/?branch=master)
