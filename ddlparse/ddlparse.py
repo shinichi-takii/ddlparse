@@ -645,7 +645,7 @@ class DdlParse(DdlParseBase):
                     + Optional(
                         Regex(r"(?!--)", re.IGNORECASE)
                         + Group(
-                            Optional(Regex(r"\b(?:NOT\s+)NULL?\b", re.IGNORECASE))("null")
+                            Optional(Regex(r"\b(?:NOT\s+)?NULL?\b", re.IGNORECASE))("null")
                             & Optional(Regex(r"\bAUTO_INCREMENT\b", re.IGNORECASE))("auto_increment")
                             & Optional(Regex(r"\b(UNIQUE|PRIMARY)(?:\s+KEY)?\b", re.IGNORECASE))("key")
                             & Optional(Regex(
