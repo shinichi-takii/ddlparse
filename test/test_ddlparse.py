@@ -1365,3 +1365,10 @@ def test_constraint_compatibility():
     assert dl_col.primary_key is True
     assert dl_col.unique is False
     assert dl_col.comment == 'foo'
+
+
+def test_ddl_with_dot_schema():
+    ddl = """
+    create table "foo.bar"."bazz" ( id int );
+    """
+    DdlParse(ddl).parse()
