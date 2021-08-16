@@ -1371,4 +1371,6 @@ def test_ddl_with_dot_schema():
     ddl = """
     create table "foo.bar"."bazz" ( id int );
     """
-    DdlParse(ddl).parse()
+    table = DdlParse(ddl).parse()
+    assert table.schema == "foo.bar"
+    assert table.name == "bazz"
