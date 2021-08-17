@@ -597,8 +597,11 @@ class DdlParse(DdlParseBase):
     _COMMENT = Suppress("--" + Regex(r".+"))
 
 
+    _SCHEMA = (_SUPPRESS_QUOTE + Word(alphanums + "_" + ".")("schema") + _SUPPRESS_QUOTE) \
+              | (Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_")("schema") + Optional(_SUPPRESS_QUOTE))
+
     _CREATE_TABLE_STATEMENT = Suppress(_CREATE) + Optional(_TEMP)("temp") + Suppress(_TABLE) + Optional(Suppress(CaselessKeyword("IF NOT EXISTS"))) \
-        + Optional(_SUPPRESS_QUOTE) + Optional(Word(alphanums + "_" + ".")("schema") + Optional(_SUPPRESS_QUOTE) + _DOT + Optional(_SUPPRESS_QUOTE)) + Word(alphanums + "_<>")("table") + Optional(_SUPPRESS_QUOTE) \
+        + Optional(_SCHEMA + _DOT) + Optional(_SUPPRESS_QUOTE) + Word(alphanums + "_<>")("table") + Optional(_SUPPRESS_QUOTE) \
         + _LPAR \
         + delimitedList(
             OneOrMore(
