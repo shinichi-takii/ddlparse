@@ -296,7 +296,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
         }
         BQ_DATA_TYPE_DIC["TIMESTAMP"] = {None: ["TIMESTAMPTZ", "TIMESTAMP WITH TIME ZONE"]}
         BQ_DATA_TYPE_DIC["DATE"] = {None: ["DATE"]}
-        BQ_DATA_TYPE_DIC["TIME"] = {None: ["TIME"]}
+        BQ_DATA_TYPE_DIC["TIME"] = {None: ["TIME", "TIME WITHOUT TIME ZONE"]}
         BQ_DATA_TYPE_DIC["BOOLEAN"] = {None: [re.compile(r"BOOL")]}
         BQ_DATA_TYPE_DIC["BYTES"] = {None: ["BYTES", "BINARY", "VARBINARY", "BYTEA"]}
 
