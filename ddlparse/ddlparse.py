@@ -287,7 +287,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
 
         # BigQuery data type = {source_database: [data type, ...], ...}
         BQ_DATA_TYPE_DIC = OrderedDict()
-        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(STRING|CHAR|TEXT|CLOB|JSON|UUID)")]}
+        BQ_DATA_TYPE_DIC["STRING"] = {None: [re.compile(r"(STRING|CHAR|TEXT|CLOB|JSON|UUID|ROWID)")]}
         BQ_DATA_TYPE_DIC["INTEGER"] = {None: [re.compile(r"INT|SERIAL|YEAR")]}
         BQ_DATA_TYPE_DIC["FLOAT"] = {None: [re.compile(r"(FLOAT|DOUBLE)"), "REAL", "MONEY"]}
         BQ_DATA_TYPE_DIC["DATETIME"] = {
@@ -298,7 +298,7 @@ class DdlParseColumn(DdlParseTableColumnBase):
         BQ_DATA_TYPE_DIC["DATE"] = {None: ["DATE"]}
         BQ_DATA_TYPE_DIC["TIME"] = {None: ["TIME"]}
         BQ_DATA_TYPE_DIC["BOOLEAN"] = {None: [re.compile(r"BOOL")]}
-        BQ_DATA_TYPE_DIC["BYTES"] = {None: ["BYTES", "BINARY", "VARBINARY", "BYTEA"]}
+        BQ_DATA_TYPE_DIC["BYTES"] = {None: ["BYTES", "BINARY", "VARBINARY", "BYTEA", "RAW", "LONG"]}
 
         for bq_type, conditions in BQ_DATA_TYPE_DIC.items():
             for source_db, source_datatypes in conditions.items():
