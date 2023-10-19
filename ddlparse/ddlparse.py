@@ -512,7 +512,7 @@ class DdlParseTable(DdlParseTableColumnBase):
 
         return self._columns.to_bigquery_fields(name_case)
 
-    def to_bigquery_ddl(self, name_case=DdlParseBase.NAME_CASE.original):
+    def to_bigquery_ddl(self, name_case=DdlParseBase.NAME_CASE.original, project="project", use_length=False):
         """
         Generate BigQuery CREATE TABLE statements
 
@@ -541,6 +541,9 @@ class DdlParseTable(DdlParseTableColumnBase):
                 # no array data type
                 type = col.bigquery_standard_data_type
                 not_null = " NOT NULL" if col.not_null else ""
+                length = ""
+                if use_length:
+                    length = "" if col.length is None else f"({col.length})"
 
             else:
                 # one or multiple dimensional array data type
@@ -554,9 +557,10 @@ class DdlParseTable(DdlParseTableColumnBase):
                 not_null = ""
 
             # cols_defs.append("{name} {type}{not_null}".format(
-            cols_defs.append("{name} {type}{not_null}{description}".format(
+            cols_defs.append("{name} {type}{lenght}{not_null}{description}".format(
                 name=col_name,
                 type=type,
+                lenght=length,
                 not_null=not_null,
                 description=' OPTIONS (description = "{}")'.format(col.description.replace('"', '\\"')) if col.description is not None else "",
             ))
@@ -564,10 +568,11 @@ class DdlParseTable(DdlParseTableColumnBase):
         return textwrap.dedent(
             """\
             #standardSQL
-            CREATE TABLE `project.{dataset}.{table}`
+            CREATE TABLE `{project}.{dataset}.{table}`
             (
               {colmns_define}
             )""").format(
+            project=project,
             dataset=dataset,
             table=self.get_name(name_case),
             colmns_define=",\n  ".join(cols_defs),
