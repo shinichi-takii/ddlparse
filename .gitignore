@@ -64,3 +64,4 @@ ENV/
 # Rope config file
 #   https://github.com/python-rope/rope
 .ropeproject/
+.idea/

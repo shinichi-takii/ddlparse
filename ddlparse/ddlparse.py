@@ -543,7 +543,7 @@ class DdlParseTable(DdlParseTableColumnBase):
                 not_null = " NOT NULL" if col.not_null else ""
                 length = ""
                 if use_length:
-                    length = "" if (col.length is None) or (col.length is not None and str(col.length).isdigit()) else f"({col.length})"
+                    length = f"({col.length})" if (col.length is not None and str(col.length).isdigit()) else ""
 
             else:
                 # one or multiple dimensional array data type
