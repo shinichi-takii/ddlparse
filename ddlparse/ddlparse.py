@@ -547,7 +547,8 @@ class DdlParseTable(DdlParseTableColumnBase):
 
                 default_column = ""
                 if use_default:
-                    default_column = f" DEFAULT '{col.default}'" if col.default is not None else ""
+                    default_value = f"'{col.default}'" if col.bigquery_standard_data_type != 'NUMERIC' else f"{col.default}"
+                    default_column = f" DEFAULT {default_value}" if col.default is not None else ""
 
             else:
                 # one or multiple dimensional array data type
